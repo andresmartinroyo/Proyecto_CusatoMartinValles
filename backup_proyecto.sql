@@ -150,7 +150,7 @@ ALTER TABLE star_wars.especie OWNER TO postgres;
 --
 
 CREATE TABLE star_wars.humano (
-    nombre_humano character varying(50) NOT NULL,
+    nombre_especie character varying(50) NOT NULL,
     fecha_nacimiento character varying(15) NOT NULL,
     fecha_muerte character varying(15)
 );
@@ -237,8 +237,7 @@ ALTER TABLE star_wars.robot OWNER TO postgres;
 -- Data for Name: afiliacion; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.afiliacion (nombre_af, tipo_af, nombre_planeta) FROM stdin;
-\.
+
 
 
 --
@@ -247,8 +246,6 @@ COPY star_wars.afiliacion (nombre_af, tipo_af, nombre_planeta) FROM stdin;
 -- Data for Name: afiliado; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.afiliado (nombre_personaje, nombre_afiliacion, fecha_afiliacion) FROM stdin;
-\.
 
 
 --
@@ -257,8 +254,7 @@ COPY star_wars.afiliado (nombre_personaje, nombre_afiliacion, fecha_afiliacion) 
 -- Data for Name: ciudad; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.ciudad (nombre_ciudad, nombre_planeta) FROM stdin;
-\.
+
 
 
 --
@@ -267,8 +263,7 @@ COPY star_wars.ciudad (nombre_ciudad, nombre_planeta) FROM stdin;
 -- Data for Name: criatura; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.criatura (nombre_especie, color_piel, dieta) FROM stdin;
-\.
+
 
 
 --
@@ -277,8 +272,7 @@ COPY star_wars.criatura (nombre_especie, color_piel, dieta) FROM stdin;
 -- Data for Name: especie; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.especie (nombre_especie, idioma) FROM stdin;
-\.
+
 
 
 --
@@ -287,8 +281,7 @@ COPY star_wars.especie (nombre_especie, idioma) FROM stdin;
 -- Data for Name: humano; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.humano (nombre_especie, fecha_nacimiento, fecha_muerte) FROM stdin;
-\.
+
 
 
 --
@@ -297,8 +290,7 @@ COPY star_wars.humano (nombre_especie, fecha_nacimiento, fecha_muerte) FROM stdi
 -- Data for Name: idioma; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.idioma (nombre_idioma, nombre_planeta) FROM stdin;
-\.
+
 
 
 --
@@ -307,8 +299,7 @@ COPY star_wars.idioma (nombre_idioma, nombre_planeta) FROM stdin;
 -- Data for Name: lugares_interes; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.lugares_interes (nombre_lugar_de_interes, nombre_ciudad, nombre_planeta) FROM stdin;
-\.
+
 
 
 --
@@ -317,8 +308,6 @@ COPY star_wars.lugares_interes (nombre_lugar_de_interes, nombre_ciudad, nombre_p
 -- Data for Name: personaje; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.personaje (nombre_personaje, genero, altura, peso, nombre_especie, nombre_planeta) FROM stdin;
-\.
 
 
 --
@@ -327,8 +316,7 @@ COPY star_wars.personaje (nombre_personaje, genero, altura, peso, nombre_especie
 -- Data for Name: planeta; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.planeta (nombre_planeta, sistema_solar, sector, clima) FROM stdin;
-\.
+
 
 
 --
@@ -337,8 +325,7 @@ COPY star_wars.planeta (nombre_planeta, sistema_solar, sector, clima) FROM stdin
 -- Data for Name: robot; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.robot (nombre_especie, creador, clase) FROM stdin;
-\.
+
 
 
 --
@@ -617,6 +604,111 @@ ALTER TABLE ONLY star_wars.robot
 -- PostgreSQL database dump complete
 --
 
+Tabla de Planetas
+
+INSERT INTO star_wars.planeta (nombre_planeta, sistema_solar, sector, clima)
+VALUES
+  ('Tatooine', 'Tatoo', 'Arkanis', 'Árido'),
+  ('Coruscant', 'Coruscant', 'Coruscant', 'Templado'),
+  ('Hoth', 'Hoth', 'Anoat', 'Gélido'),
+  ('Endor', 'Endor', 'Moddell', 'Boscoso'),
+  ('Naboo', 'Naboo', 'Chommell', 'Húmedo'),
+  ('Kashyyyk', 'Kashyyyk', 'Mytaranor', 'Tropical'),
+  ('Geonosis', 'Geonosis', 'Geonosis', 'Desértico'),
+  ('Yavin IV', 'Yavin', 'Espacio Salvaje', 'Selva'),
+  ('Bespin', 'Bespin', 'Anoat', 'Gaseoso'),
+  ('Kamino', 'Kamino', 'Kamino', 'Lluvioso'),
+  ('Mustafar', 'Mustafar', 'Atravis', 'Volcánico'),
+  ('Dagobah', 'Dagobah', 'Sluis', 'Pantano'),
+  ('Jakku', 'Jakku', 'Sistema de Jakku', 'Árido'),
+  ('Takodana', 'Takodana', 'Territorios del Borde Exterior', 'Boscoso'),
+  ('Hosnian Prime', 'Hosnian', 'Territorios del Borde Exterior', 'Templado'),
+  ('Lothal', 'Lothal', 'Sector Lothal', 'Templado'),
+  ('Sullust', 'Sullust', 'Sistema Sullust', 'Volcánico'),
+  ('Scarif', 'Scarif', 'Sector Scarif', 'Tropical'),
+  ('Jedha', 'Jedha', 'Sector Jedha', 'Desértico'),
+  ('Crait', 'Crait', 'Crait', 'Salino'),
+  ('Ahch-To', 'Ahch-To', 'Territorios del Borde Exterior', 'Isleño'),
+  ('Batuu', 'Batuu', 'Territorios del Borde Exterior', 'Desértico'),
+  ('Exegol', 'Exegol', 'Desconocido', 'Tenebroso'),
+  ('Pasaana', 'Pasaana', 'Territorios del Borde Exterior', 'Desértico'),
+  ('Kijimi', 'Kijimi', 'Territorios del Borde Exterior', 'Gélido'),
+  ('Ajan Kloss', 'Ajan Kloss', 'Territorios del Borde Exterior', 'Boscoso'),
+  ('Kef Bir', 'Kef Bir', 'Territorios del Borde Exterior', 'Oceánico'),
+  ('Alderaan', 'Alderaan', 'Alderaan', 'Templado'),
+  ('Malachor', 'Malachor', 'Territorios del Borde Exterior', 'Desértico'),
+  ('Dantooine', 'Dantooine', 'Territorios del Borde Exterior', 'Variado'),
+  ('Corellia', 'Corellia', 'Territorios del Borde Exterior', 'Variado'),
+  ('Cantonica', 'Cantonica', 'Territorios del Borde Exterior', 'Desértico'),
+  ('Cato Neimoidia', 'Cato Neimoidia', 'Territorios del Borde Exterior','Montañoso'),
+  ('Ryloth', 'Ryloth', 'Territorios del Borde Exterior', 'Árido'),
+  ('Mandalore', 'Mandalore', 'Territorios del Borde Exterior', 'Variado'),
+  ('Nal Hutta', 'Nal Hutta', 'Hutt', 'Pantano'),
+  ('Ord Mantell', 'Ord Mantell', 'Territorios del Borde Exterior', 'Templado'),
+  ('Teth', 'Teth', 'Territorios del Borde Exterior', 'Selva'),
+  ('Toydaria', 'Toydaria', 'Territorios del Borde Exterior', 'Boscoso'),
+  ('Utapau', 'Utapau', 'Territorios del Borde Exterior', 'Desértico'),
+  ('Raxus Prime', 'Raxus', 'Territorios del Borde Exterior', 'Basura'),
+  ('Mimban', 'Mimban', 'Territorios del Borde Exterior', 'Lodoso'),
+  ('Kessel', 'Kessel', 'Territorios del Borde Exterior', 'Árido'),
+  ('Dathomir', 'Dathomir', 'Territorios del Borde Exterior', 'Variado'),
+  ('Iridonia', 'Iridonia', 'Territorios del Borde Exterior', 'Templado'),
+  ('Rattatak', 'Rattatak', 'Territorios del Borde Exterior', 'Árido'),
+  ('Rodia', 'Rodia', 'Territorios del Borde Exterior', 'Selva'),
+  ('Trandosha', 'Trandosha', 'Territorios del Borde Exterior', 'Selva'),
+  ('Nar Shaddaa', 'Nal Hutta', 'Hutt', 'Ciudad'),
+  ('Korriban', 'Korriban', 'Desconocido', 'Árido');
+
+
+
+Tabla Ciudad
+
+INSERT INTO star_wars.ciudad (nombre_ciudad, nombre_planeta)
+VALUES
+  ('Mos Eisley', 'Tatooine'),
+  ('Coruscant', 'Coruscant'),
+  ('Echo Base', 'Hoth'),
+  ('Bright Tree Village', 'Endor'),
+  ('Theed', 'Naboo'),
+  ('Kachirho', 'Kashyyyk'),
+  ('Geonosis', 'Geonosis'),
+  ('Yavin 4', 'Yavin IV'),
+  ('Cloud City', 'Bespin'),
+  ('Tipoca City', 'Kamino'),
+  ('Mustafar', 'Mustafar'),
+  ('Swamp of Dagobah', 'Dagobah'),
+  ('Niima Outpost', 'Jakku'),
+  ('Maz"s Castle', 'Takodana'),
+  ('Hosnian Prime', 'Hosnian Prime'),
+  ('Capital City', 'Lothal'),
+  ('Pinyumb', 'Sullust'),
+  ('Citadel Tower', 'Scarif'),
+  ('Jedha City', 'Jedha'),
+  ('Crait Outpost', 'Crait'),
+  ('Ahch-To Village', 'Ahch-To'),
+  ('Black Spire Outpost', 'Batuu'),
+  ('Exegol', 'Exegol'),
+  ('Pasaana', 'Pasaana'),
+  ('Kijimi City', 'Kijimi'),
+  ('Resistance Base', 'Ajan Kloss'),
+  ('Kerath City', 'Kef Bir'),
+  ('Aldera', 'Alderaan'),
+  ('Hutt Space', 'Nal Hutta');
+
+
+
+Tabla de afiliaciones 
+
+INSERT INTO star_wars.afiliacion (nombre_af, tipo_af, nombre_planeta) VALUES
+ ('Imperio Galáctico', 'Imperio', 'Coruscant'),
+('Alianza Rebelde', 'Rebelión','Yavin IV'),
+('República Galáctica', 'República', 'Coruscant'),
+('Confederación de Sistemas Independientes', 'Separatistas',´Geonosis´),
+('Primera Orden', 'Imperio','Exegol'),
+('Resistencia', 'Rebelion','Ajan Kloss');
+
+Tabla Especie
+
 INSERT INTO star_wars.especie (nombre_especie, idioma)
 VALUES
   ('Humano', 'Básico Galáctico'),
@@ -668,134 +760,7 @@ VALUES
   ('Klatooiniano', 'Klatooiniano'),
   ('Verpine', 'Verpino');
 
-
-INSERT INTO star_wars.humano (nombre_humano, fecha_nacimiento, fecha_muerte)
-VALUES
-  ('Luke Skywalker', '19 ABY', NULL),
-  ('Anakin Skywalker', '41,9 ABY', '4 DBY'),
-  ('Leia Organa', '19 ABY', '35 DBY'),
-  ('Han Solo', '29 ABY', '34 DBY'),
-  ('Obi-Wan Kenobi', '57 ABY', '0 DBY'),
-  ('Padmé Amidala', '46 ABY', '19 ABY'),
-  ('Rey', '15 DBY', NULL),
-  ('Finn', 'desconocido', NULL),
-  ('Poe Dameron', 'desconocido', NULL),
-  ('Mace Windu', '72 ABY', '19 ABY'),
-  ('Qui-Gon Jinn', '92 ABY', '32 ABY'),
-  ('Count Dooku', '102 ABY', '19 ABY'),
-  ('Darth Sidious', '84 ABY', '4 DBY'),
-  ('Darth Vader', '41,9 ABY', '4 DBY'),
-  ('Lando Calrissian', '31 ABY', NULL),
-  ('C-3PO', 'desconocido', NULL),
-  ('R2-D2', 'desconocido', NULL),
-  ('Bail Organa', '67 ABY', '0 ABY'),
-  ('Jango Fett', '66 ABY', '22 ABY'),
-  ('Boba Fett', '31,5 ABY', '4 DBY'),
-  ('Captain Rex', '32 ABY', NULL),
-  ('Jyn Erso', '22 ABY', '0 ABY'),
-  ('Cassian Andor', 'desconocido', NULL),
-  ('Chewbacca', '200 ABY', NULL),
-  ('Wedge Antilles', '21 ABY', NULL),
-  ('Biggs Darklighter', '24 ABY', '0 ABY'),
-  ('Owen Lars', '52 ABY', '0 ABY'),
-  ('Beru Lars', '47 ABY', '0 ABY'),
-  ('Shmi Skywalker', '72 ABY', '32 ABY'),
-  ('Plo Koon', '22 ABY', '19 ABY'),
-  ('Ki-Adi-Mundi', '92 ABY', '19 ABY'),
-  ('Saesee Tiin', 'desconocido', '19 ABY'),
-  ('Aayla Secura', '48 ABY', '19 ABY'),
-  ('Kit Fisto', 'desconocido', '19 ABY'),
-  ('Shaak Ti', 'desconocido', '19 ABY'),
-  ('Admiral Ackbar', '48 ABY', '34 DBY'),
-  ('Mon Mothma', '46 ABY', NULL),
-  ('General Hux', 'desconocido', '35 DBY'),
-  ('Rose Tico', 'desconocido', NULL),
-  ('Jannah', 'desconocido', NULL);
-
-INSERT INTO star_wars.planeta (nombre_planeta, sistema_solar, sector, clima)
-VALUES
-  ('Tatooine', 'Tatoo', 'Arkanis', 'Árido'),
-  ('Coruscant', 'Coruscant', 'Coruscant', 'Templado'),
-  ('Hoth', 'Hoth', 'Anoat', 'Gélido'),
-  ('Endor', 'Endor', 'Moddell', 'Boscoso'),
-  ('Naboo', 'Naboo', 'Chommell', 'Húmedo'),
-  ('Kashyyyk', 'Kashyyyk', 'Mytaranor', 'Tropical'),
-  ('Geonosis', 'Geonosis', 'Geonosis', 'Desértico'),
-  ('Yavin IV', 'Yavin', 'Espacio Salvaje', 'Selva'),
-  ('Bespin', 'Bespin', 'Anoat', 'Gaseoso'),
-  ('Kamino', 'Kamino', 'Kamino', 'Lluvioso'),
-  ('Mustafar', 'Mustafar', 'Atravis', 'Volcánico'),
-  ('Dagobah', 'Dagobah', 'Sluis', 'Pantano'),
-  ('Jakku', 'Jakku', 'Sistema de Jakku', 'Árido'),
-  ('Takodana', 'Takodana', 'Territorios del Borde Exterior', 'Boscoso'),
-  ('Hosnian Prime', 'Hosnian', 'Territorios del Borde Exterior', 'Templado'),
-  ('Lothal', 'Lothal', 'Sector Lothal', 'Templado'),
-  ('Sullust', 'Sullust', 'Sistema Sullust', 'Volcánico'),
-  ('Scarif', 'Scarif', 'Sector Scarif', 'Tropical'),
-  ('Jedha', 'Jedha', 'Sector Jedha', 'Desértico'),
-  ('Crait', 'Crait', 'Crait', 'Salino'),
-  ('Ahch-To', 'Ahch-To', 'Territorios del Borde Exterior', 'Isleño'),
-  ('Batuu', 'Batuu', 'Territorios del Borde Exterior', 'Desértico'),
-  ('Exegol', 'Exegol', 'Desconocido', 'Tenebroso'),
-  ('Pasaana', 'Pasaana', 'Territorios del Borde Exterior', 'Desértico'),
-  ('Kijimi', 'Kijimi', 'Territorios del Borde Exterior', 'Gélido'),
-  ('Ajan Kloss', 'Ajan Kloss', 'Territorios del Borde Exterior', 'Boscoso'),
-  ('Kef Bir', 'Kef Bir', 'Territorios del Borde Exterior', 'Oceánico'),
-  ('Alderaan', 'Alderaan', 'Alderaan', 'Templado'),
-  ('Malachor', 'Malachor', 'Territorios del Borde Exterior', 'Desértico'),
-  ('Dantooine', 'Dantooine', 'Territorios del Borde Exterior', 'Variado'),
-  ('Corellia', 'Corellia', 'Territorios del Borde Exterior', 'Variado'),
-  ('Cantonica', 'Cantonica', 'Territorios del Borde Exterior', 'Desértico'),
-  ('Cato Neimoidia', 'Cato Neimoidia', 'Territorios del Borde Exterior', 'Montañoso'),
-  ('Ryloth', 'Ryloth', 'Territorios del Borde Exterior', 'Árido'),
-  ('Mandalore', 'Mandalore', 'Territorios del Borde Exterior', 'Variado'),
-  ('Nal Hutta', 'Nal Hutta', 'Hutt', 'Pantano'),
-  ('Ord Mantell', 'Ord Mantell', 'Territorios del Borde Exterior', 'Templado'),
-  ('Teth', 'Teth', 'Territorios del Borde Exterior', 'Selva'),
-  ('Toydaria', 'Toydaria', 'Territorios del Borde Exterior', 'Boscoso'),
-  ('Utapau', 'Utapau', 'Territorios del Borde Exterior', 'Desértico'),
-  ('Raxus Prime', 'Raxus', 'Territorios del Borde Exterior', 'Basura'),
-  ('Mimban', 'Mimban', 'Territorios del Borde Exterior', 'Lodoso'),
-  ('Kessel', 'Kessel', 'Territorios del Borde Exterior', 'Árido'),
-  ('Dathomir', 'Dathomir', 'Territorios del Borde Exterior', 'Variado'),
-  ('Iridonia', 'Iridonia', 'Territorios del Borde Exterior', 'Templado'),
-  ('Rattatak', 'Rattatak', 'Territorios del Borde Exterior', 'Árido'),
-  ('Rodia', 'Rodia', 'Territorios del Borde Exterior', 'Selva'),
-  ('Trandosha', 'Trandosha', 'Territorios del Borde Exterior', 'Selva'),
-  ('Nar Shaddaa', 'Nal Hutta', 'Hutt', 'Ciudad'),
-  ('Korriban', 'Korriban', 'Desconocido', 'Árido');
-
-INSERT INTO star_wars.ciudad (nombre_ciudad, nombre_planeta)
-VALUES
-  ('Mos Eisley', 'Tatooine'),
-  ('Coruscant', 'Coruscant'),
-  ('Echo Base', 'Hoth'),
-  ('Bright Tree Village', 'Endor'),
-  ('Theed', 'Naboo'),
-  ('Kachirho', 'Kashyyyk'),
-  ('Geonosis', 'Geonosis'),
-  ('Yavin 4', 'Yavin IV'),
-  ('Cloud City', 'Bespin'),
-  ('Tipoca City', 'Kamino'),
-  ('Mustafar', 'Mustafar'),
-  ('Swamp of Dagobah', 'Dagobah'),
-  ('Niima Outpost', 'Jakku'),
-  ('Maz"s Castle', 'Takodana'),
-  ('Hosnian Prime', 'Hosnian Prime'),
-  ('Capital City', 'Lothal'),
-  ('Pinyumb', 'Sullust'),
-  ('Citadel Tower', 'Scarif'),
-  ('Jedha City', 'Jedha'),
-  ('Crait Outpost', 'Crait'),
-  ('Ahch-To Village', 'Ahch-To'),
-  ('Black Spire Outpost', 'Batuu'),
-  ('Exegol', 'Exegol'),
-  ('Pasaana', 'Pasaana'),
-  ('Kijimi City', 'Kijimi'),
-  ('Resistance Base', 'Ajan Kloss'),
-  ('Kerath City', 'Kef Bir'),
-  ('Aldera', 'Alderaan'),
-  ('Hutt Space', 'Nal Hutta');
+Tabla Personajes
 
 INSERT INTO star_wars.personaje (nombre_personaje, genero, altura, peso, nombre_especie, nombre_planeta)
 VALUES
@@ -829,7 +794,6 @@ VALUES
   ('Nien Nunb', 'M', 160, 68, 'Sullustano', 'Sullust'),
   ('Visas Marr', 'F', 170, 55, 'Miraluka', 'Korriban'),
   ('Dengar', 'M', 193, 80, 'Humano', 'Corellia');
-
 
 
 
