@@ -5,7 +5,7 @@
 -- Dumped from database version 15.3
 -- Dumped by pg_dump version 15.3
 
--- Started on 2023-06-27 11:46:18
+-- Started on 2023-06-27 21:03:42
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -29,7 +29,7 @@ CREATE SCHEMA star_wars;
 ALTER SCHEMA star_wars OWNER TO postgres;
 
 --
--- TOC entry 864 (class 1247 OID 17243)
+-- TOC entry 861 (class 1247 OID 17243)
 -- Name: dieta_dom; Type: DOMAIN; Schema: star_wars; Owner: postgres
 --
 
@@ -40,7 +40,7 @@ CREATE DOMAIN star_wars.dieta_dom AS character varying(20)
 ALTER DOMAIN star_wars.dieta_dom OWNER TO postgres;
 
 --
--- TOC entry 868 (class 1247 OID 17246)
+-- TOC entry 865 (class 1247 OID 17246)
 -- Name: genero_dom; Type: DOMAIN; Schema: star_wars; Owner: postgres
 --
 
@@ -51,7 +51,7 @@ CREATE DOMAIN star_wars.genero_dom AS character varying(10)
 ALTER DOMAIN star_wars.genero_dom OWNER TO postgres;
 
 --
--- TOC entry 872 (class 1247 OID 17249)
+-- TOC entry 869 (class 1247 OID 17249)
 -- Name: rating_dom; Type: DOMAIN; Schema: star_wars; Owner: postgres
 --
 
@@ -62,7 +62,7 @@ CREATE DOMAIN star_wars.rating_dom AS integer
 ALTER DOMAIN star_wars.rating_dom OWNER TO postgres;
 
 --
--- TOC entry 876 (class 1247 OID 17252)
+-- TOC entry 873 (class 1247 OID 17252)
 -- Name: tipo_actor_dom; Type: DOMAIN; Schema: star_wars; Owner: postgres
 --
 
@@ -73,7 +73,18 @@ CREATE DOMAIN star_wars.tipo_actor_dom AS character varying(20)
 ALTER DOMAIN star_wars.tipo_actor_dom OWNER TO postgres;
 
 --
--- TOC entry 240 (class 1255 OID 17413)
+-- TOC entry 937 (class 1247 OID 17635)
+-- Name: tipo_especie_dom; Type: DOMAIN; Schema: star_wars; Owner: postgres
+--
+
+CREATE DOMAIN star_wars.tipo_especie_dom AS text
+	CONSTRAINT tipo_especie_dom_check CHECK ((VALUE = ANY (ARRAY['humano'::text, 'robot'::text, 'criatura'::text])));
+
+
+ALTER DOMAIN star_wars.tipo_especie_dom OWNER TO postgres;
+
+--
+-- TOC entry 237 (class 1255 OID 17413)
 -- Name: verificar_ganancia(); Type: FUNCTION; Schema: star_wars; Owner: postgres
 --
 
@@ -92,7 +103,7 @@ $$;
 ALTER FUNCTION star_wars.verificar_ganancia() OWNER TO postgres;
 
 --
--- TOC entry 241 (class 1255 OID 17480)
+-- TOC entry 238 (class 1255 OID 17480)
 -- Name: verificar_nave(); Type: FUNCTION; Schema: star_wars; Owner: postgres
 --
 
@@ -115,7 +126,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- TOC entry 226 (class 1259 OID 17384)
+-- TOC entry 223 (class 1259 OID 17384)
 -- Name: actor; Type: TABLE; Schema: star_wars; Owner: postgres
 --
 
@@ -159,7 +170,7 @@ CREATE TABLE star_wars.afiliado (
 ALTER TABLE star_wars.afiliado OWNER TO postgres;
 
 --
--- TOC entry 237 (class 1259 OID 17585)
+-- TOC entry 234 (class 1259 OID 17585)
 -- Name: aparece; Type: TABLE; Schema: star_wars; Owner: postgres
 --
 
@@ -186,7 +197,7 @@ CREATE TABLE star_wars.ciudad (
 ALTER TABLE star_wars.ciudad OWNER TO postgres;
 
 --
--- TOC entry 235 (class 1259 OID 17509)
+-- TOC entry 232 (class 1259 OID 17509)
 -- Name: combate; Type: TABLE; Schema: star_wars; Owner: postgres
 --
 
@@ -202,21 +213,7 @@ CREATE TABLE star_wars.combate (
 ALTER TABLE star_wars.combate OWNER TO postgres;
 
 --
--- TOC entry 218 (class 1259 OID 17263)
--- Name: criatura; Type: TABLE; Schema: star_wars; Owner: postgres
---
-
-CREATE TABLE star_wars.criatura (
-    nombre_especie character varying(50) NOT NULL,
-    color_piel character varying(50) NOT NULL,
-    dieta star_wars.dieta_dom NOT NULL
-);
-
-
-ALTER TABLE star_wars.criatura OWNER TO postgres;
-
---
--- TOC entry 239 (class 1259 OID 17619)
+-- TOC entry 236 (class 1259 OID 17619)
 -- Name: dueno; Type: TABLE; Schema: star_wars; Owner: postgres
 --
 
@@ -230,34 +227,7 @@ CREATE TABLE star_wars.dueno (
 ALTER TABLE star_wars.dueno OWNER TO postgres;
 
 --
--- TOC entry 219 (class 1259 OID 17268)
--- Name: especie; Type: TABLE; Schema: star_wars; Owner: postgres
---
-
-CREATE TABLE star_wars.especie (
-    nombre_especie character varying(30) NOT NULL,
-    idioma character varying(20) NOT NULL
-);
-
-
-ALTER TABLE star_wars.especie OWNER TO postgres;
-
---
--- TOC entry 220 (class 1259 OID 17271)
--- Name: humano; Type: TABLE; Schema: star_wars; Owner: postgres
---
-
-CREATE TABLE star_wars.humano (
-    nombre_especie character varying(50) NOT NULL,
-    fecha_nacimiento character varying(15) NOT NULL,
-    fecha_muerte character varying(15)
-);
-
-
-ALTER TABLE star_wars.humano OWNER TO postgres;
-
---
--- TOC entry 221 (class 1259 OID 17274)
+-- TOC entry 218 (class 1259 OID 17274)
 -- Name: idioma; Type: TABLE; Schema: star_wars; Owner: postgres
 --
 
@@ -270,7 +240,7 @@ CREATE TABLE star_wars.idioma (
 ALTER TABLE star_wars.idioma OWNER TO postgres;
 
 --
--- TOC entry 236 (class 1259 OID 17533)
+-- TOC entry 233 (class 1259 OID 17533)
 -- Name: interpretado; Type: TABLE; Schema: star_wars; Owner: postgres
 --
 
@@ -284,7 +254,7 @@ CREATE TABLE star_wars.interpretado (
 ALTER TABLE star_wars.interpretado OWNER TO postgres;
 
 --
--- TOC entry 222 (class 1259 OID 17277)
+-- TOC entry 219 (class 1259 OID 17277)
 -- Name: lugares_interes; Type: TABLE; Schema: star_wars; Owner: postgres
 --
 
@@ -298,7 +268,7 @@ CREATE TABLE star_wars.lugares_interes (
 ALTER TABLE star_wars.lugares_interes OWNER TO postgres;
 
 --
--- TOC entry 228 (class 1259 OID 17392)
+-- TOC entry 225 (class 1259 OID 17392)
 -- Name: medio; Type: TABLE; Schema: star_wars; Owner: postgres
 --
 
@@ -314,7 +284,7 @@ CREATE TABLE star_wars.medio (
 ALTER TABLE star_wars.medio OWNER TO postgres;
 
 --
--- TOC entry 227 (class 1259 OID 17391)
+-- TOC entry 224 (class 1259 OID 17391)
 -- Name: medio_id_seq; Type: SEQUENCE; Schema: star_wars; Owner: postgres
 --
 
@@ -330,8 +300,8 @@ CREATE SEQUENCE star_wars.medio_id_seq
 ALTER TABLE star_wars.medio_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3558 (class 0 OID 0)
--- Dependencies: 227
+-- TOC entry 3537 (class 0 OID 0)
+-- Dependencies: 224
 -- Name: medio_id_seq; Type: SEQUENCE OWNED BY; Schema: star_wars; Owner: postgres
 --
 
@@ -339,7 +309,7 @@ ALTER SEQUENCE star_wars.medio_id_seq OWNED BY star_wars.medio.id_medio;
 
 
 --
--- TOC entry 234 (class 1259 OID 17474)
+-- TOC entry 231 (class 1259 OID 17474)
 -- Name: nave; Type: TABLE; Schema: star_wars; Owner: postgres
 --
 
@@ -356,7 +326,7 @@ CREATE TABLE star_wars.nave (
 ALTER TABLE star_wars.nave OWNER TO postgres;
 
 --
--- TOC entry 233 (class 1259 OID 17473)
+-- TOC entry 230 (class 1259 OID 17473)
 -- Name: nave_id_nave_seq; Type: SEQUENCE; Schema: star_wars; Owner: postgres
 --
 
@@ -372,8 +342,8 @@ CREATE SEQUENCE star_wars.nave_id_nave_seq
 ALTER TABLE star_wars.nave_id_nave_seq OWNER TO postgres;
 
 --
--- TOC entry 3559 (class 0 OID 0)
--- Dependencies: 233
+-- TOC entry 3538 (class 0 OID 0)
+-- Dependencies: 230
 -- Name: nave_id_nave_seq; Type: SEQUENCE OWNED BY; Schema: star_wars; Owner: postgres
 --
 
@@ -381,7 +351,7 @@ ALTER SEQUENCE star_wars.nave_id_nave_seq OWNED BY star_wars.nave.id_nave;
 
 
 --
--- TOC entry 229 (class 1259 OID 17425)
+-- TOC entry 226 (class 1259 OID 17425)
 -- Name: pelicula; Type: TABLE; Schema: star_wars; Owner: postgres
 --
 
@@ -400,7 +370,7 @@ CREATE TABLE star_wars.pelicula (
 ALTER TABLE star_wars.pelicula OWNER TO postgres;
 
 --
--- TOC entry 223 (class 1259 OID 17280)
+-- TOC entry 220 (class 1259 OID 17280)
 -- Name: personaje; Type: TABLE; Schema: star_wars; Owner: postgres
 --
 
@@ -410,14 +380,21 @@ CREATE TABLE star_wars.personaje (
     altura double precision,
     peso double precision,
     nombre_especie character varying(50) NOT NULL,
-    nombre_planeta character varying(50) NOT NULL
+    nombre_planeta character varying(50) NOT NULL,
+    tipo_especie star_wars.tipo_especie_dom,
+    fecha_nacimiento character varying(50),
+    fecha_muerte character varying(50),
+    creador character varying(50),
+    clase character varying(50),
+    dieta star_wars.dieta_dom,
+    color_piel character varying(50)
 );
 
 
 ALTER TABLE star_wars.personaje OWNER TO postgres;
 
 --
--- TOC entry 224 (class 1259 OID 17285)
+-- TOC entry 221 (class 1259 OID 17285)
 -- Name: planeta; Type: TABLE; Schema: star_wars; Owner: postgres
 --
 
@@ -432,7 +409,7 @@ CREATE TABLE star_wars.planeta (
 ALTER TABLE star_wars.planeta OWNER TO postgres;
 
 --
--- TOC entry 232 (class 1259 OID 17456)
+-- TOC entry 229 (class 1259 OID 17456)
 -- Name: plataformas; Type: TABLE; Schema: star_wars; Owner: postgres
 --
 
@@ -445,7 +422,7 @@ CREATE TABLE star_wars.plataformas (
 ALTER TABLE star_wars.plataformas OWNER TO postgres;
 
 --
--- TOC entry 225 (class 1259 OID 17288)
+-- TOC entry 222 (class 1259 OID 17288)
 -- Name: robot; Type: TABLE; Schema: star_wars; Owner: postgres
 --
 
@@ -459,7 +436,7 @@ CREATE TABLE star_wars.robot (
 ALTER TABLE star_wars.robot OWNER TO postgres;
 
 --
--- TOC entry 230 (class 1259 OID 17436)
+-- TOC entry 227 (class 1259 OID 17436)
 -- Name: serie; Type: TABLE; Schema: star_wars; Owner: postgres
 --
 
@@ -475,7 +452,7 @@ CREATE TABLE star_wars.serie (
 ALTER TABLE star_wars.serie OWNER TO postgres;
 
 --
--- TOC entry 238 (class 1259 OID 17604)
+-- TOC entry 235 (class 1259 OID 17604)
 -- Name: tripula; Type: TABLE; Schema: star_wars; Owner: postgres
 --
 
@@ -489,7 +466,7 @@ CREATE TABLE star_wars.tripula (
 ALTER TABLE star_wars.tripula OWNER TO postgres;
 
 --
--- TOC entry 231 (class 1259 OID 17446)
+-- TOC entry 228 (class 1259 OID 17446)
 -- Name: videojuego; Type: TABLE; Schema: star_wars; Owner: postgres
 --
 
@@ -503,7 +480,7 @@ CREATE TABLE star_wars.videojuego (
 ALTER TABLE star_wars.videojuego OWNER TO postgres;
 
 --
--- TOC entry 3281 (class 2604 OID 17395)
+-- TOC entry 3273 (class 2604 OID 17395)
 -- Name: medio id_medio; Type: DEFAULT; Schema: star_wars; Owner: postgres
 --
 
@@ -511,7 +488,7 @@ ALTER TABLE ONLY star_wars.medio ALTER COLUMN id_medio SET DEFAULT nextval('star
 
 
 --
--- TOC entry 3283 (class 2604 OID 17477)
+-- TOC entry 3275 (class 2604 OID 17477)
 -- Name: nave id_nave; Type: DEFAULT; Schema: star_wars; Owner: postgres
 --
 
@@ -519,8 +496,8 @@ ALTER TABLE ONLY star_wars.nave ALTER COLUMN id_nave SET DEFAULT nextval('star_w
 
 
 --
--- TOC entry 3539 (class 0 OID 17384)
--- Dependencies: 226
+-- TOC entry 3518 (class 0 OID 17384)
+-- Dependencies: 223
 -- Data for Name: actor; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
@@ -529,7 +506,7 @@ COPY star_wars.actor (nombre_actor, fecha_nacimiento, genero, nacionalidad, tipo
 
 
 --
--- TOC entry 3528 (class 0 OID 17254)
+-- TOC entry 3510 (class 0 OID 17254)
 -- Dependencies: 215
 -- Data for Name: afiliacion; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
@@ -539,7 +516,7 @@ COPY star_wars.afiliacion (nombre_af, tipo_af, nombre_planeta) FROM stdin;
 
 
 --
--- TOC entry 3529 (class 0 OID 17257)
+-- TOC entry 3511 (class 0 OID 17257)
 -- Dependencies: 216
 -- Data for Name: afiliado; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
@@ -549,8 +526,8 @@ COPY star_wars.afiliado (nombre_personaje, nombre_afiliacion, fecha_afiliacion) 
 
 
 --
--- TOC entry 3550 (class 0 OID 17585)
--- Dependencies: 237
+-- TOC entry 3529 (class 0 OID 17585)
+-- Dependencies: 234
 -- Data for Name: aparece; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
@@ -559,7 +536,7 @@ COPY star_wars.aparece (nombre_personaje, id_medio, fecha_estreno) FROM stdin;
 
 
 --
--- TOC entry 3530 (class 0 OID 17260)
+-- TOC entry 3512 (class 0 OID 17260)
 -- Dependencies: 217
 -- Data for Name: ciudad; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
@@ -598,8 +575,8 @@ Hutt Space	Nal Hutta
 
 
 --
--- TOC entry 3548 (class 0 OID 17509)
--- Dependencies: 235
+-- TOC entry 3527 (class 0 OID 17509)
+-- Dependencies: 232
 -- Data for Name: combate; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
@@ -608,18 +585,8 @@ COPY star_wars.combate (participante1, participante2, id_medio, fecha_combate, l
 
 
 --
--- TOC entry 3531 (class 0 OID 17263)
--- Dependencies: 218
--- Data for Name: criatura; Type: TABLE DATA; Schema: star_wars; Owner: postgres
---
-
-COPY star_wars.criatura (nombre_especie, color_piel, dieta) FROM stdin;
-\.
-
-
---
--- TOC entry 3552 (class 0 OID 17619)
--- Dependencies: 239
+-- TOC entry 3531 (class 0 OID 17619)
+-- Dependencies: 236
 -- Data for Name: dueno; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
@@ -628,76 +595,8 @@ COPY star_wars.dueno (nombre_personaje, id_nave, fecha_compra) FROM stdin;
 
 
 --
--- TOC entry 3532 (class 0 OID 17268)
--- Dependencies: 219
--- Data for Name: especie; Type: TABLE DATA; Schema: star_wars; Owner: postgres
---
-
-COPY star_wars.especie (nombre_especie, idioma) FROM stdin;
-Humano	Básico Galáctico
-Wookiee	Shyriiwook
-Droide	Droidspeak
-Hutt	Huttese
-Rodiano	Básico Galáctico
-Togruta	Togruti
-Trandoshan	Dosh
-Mon Calamari	Mon Calamariano
-Ewok	Ewokés
-Sullustano	Sullustese
-Jawa	Jawaés
-Gungan	Gungan Básico
-Kel Dor	Kel Dor
-Kaleesh	Kaleesh
-Ithoriano	Ithoriano
-Gamorreano	Gamorreano
-Quarren	Quarren
-Miraluka	Miraluka
-Especie de Yoda	Desconocido
-Chiss	Cheunh
-Aqualish	Aqualish
-Mandaloriano	Mando'a
-Sith	Desconocido
-Zabrak	Zabrak
-Bothan	Bothanés
-Kaminoano	Kaminoano
-Nautolano	Nautilano
-Mirialano	Mirialano
-Neimodiano	Neimoidiano
-Saquen	Tusken
-Hapano	Hapano
-Gand	Gand
-Weequay	Weequay
-Geonosiano	Geonosiano
-Falleen	Falleen
-Dathomiriano	Dathomiriano
-Talz	Talz
-Ishi Tib	Ishi Tib
-Umbarano	Umbarano
-Sakiyano	Sakiyano
-Kashyyykiano	Shyriiwook
-Nabooano	Básico Galáctico
-Kiffar	Kiffu
-Echani	Echani
-Siniteen	Siniteen
-Muun	Muun
-Klatooiniano	Klatooiniano
-Verpine	Verpino
-\.
-
-
---
--- TOC entry 3533 (class 0 OID 17271)
--- Dependencies: 220
--- Data for Name: humano; Type: TABLE DATA; Schema: star_wars; Owner: postgres
---
-
-COPY star_wars.humano (nombre_especie, fecha_nacimiento, fecha_muerte) FROM stdin;
-\.
-
-
---
--- TOC entry 3534 (class 0 OID 17274)
--- Dependencies: 221
+-- TOC entry 3513 (class 0 OID 17274)
+-- Dependencies: 218
 -- Data for Name: idioma; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
@@ -706,8 +605,8 @@ COPY star_wars.idioma (nombre_idioma, nombre_planeta) FROM stdin;
 
 
 --
--- TOC entry 3549 (class 0 OID 17533)
--- Dependencies: 236
+-- TOC entry 3528 (class 0 OID 17533)
+-- Dependencies: 233
 -- Data for Name: interpretado; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
@@ -716,8 +615,8 @@ COPY star_wars.interpretado (nombre_personaje, nombre_actor, id_medio) FROM stdi
 
 
 --
--- TOC entry 3535 (class 0 OID 17277)
--- Dependencies: 222
+-- TOC entry 3514 (class 0 OID 17277)
+-- Dependencies: 219
 -- Data for Name: lugares_interes; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
@@ -726,8 +625,8 @@ COPY star_wars.lugares_interes (nombre_lugar_de_interes, nombre_ciudad, nombre_p
 
 
 --
--- TOC entry 3541 (class 0 OID 17392)
--- Dependencies: 228
+-- TOC entry 3520 (class 0 OID 17392)
+-- Dependencies: 225
 -- Data for Name: medio; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
@@ -736,8 +635,8 @@ COPY star_wars.medio (id_medio, titulo, fecha_estreno, rating, sinopsis) FROM st
 
 
 --
--- TOC entry 3547 (class 0 OID 17474)
--- Dependencies: 234
+-- TOC entry 3526 (class 0 OID 17474)
+-- Dependencies: 231
 -- Data for Name: nave; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
@@ -746,8 +645,8 @@ COPY star_wars.nave (id_nave, nombre_nave, fabricante, longitud, uso, modelo) FR
 
 
 --
--- TOC entry 3542 (class 0 OID 17425)
--- Dependencies: 229
+-- TOC entry 3521 (class 0 OID 17425)
+-- Dependencies: 226
 -- Data for Name: pelicula; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
@@ -756,48 +655,48 @@ COPY star_wars.pelicula (id_pelicula, director, duracion, distribuidor, coste_pr
 
 
 --
--- TOC entry 3536 (class 0 OID 17280)
--- Dependencies: 223
+-- TOC entry 3515 (class 0 OID 17280)
+-- Dependencies: 220
 -- Data for Name: personaje; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.personaje (nombre_personaje, genero, altura, peso, nombre_especie, nombre_planeta) FROM stdin;
-Luke Skywalker	M	172	77	Humano	Tatooine
-Leia Organa	F	150	49	Humano	Alderaan
-Darth Vader	M	202	136	Humano	Tatooine
-Han Solo	M	180	80	Humano	Corellia
-Anakin Skywalker	M	188	84	Humano	Tatooine
-Padmé Amidala	F	165	45	Humano	Naboo
-Qui-Gon Jinn	M	193	89	Humano	Coruscant
-Rey	F	170	65	Humano	Jakku
-Poe Dameron	M	180	80	Humano	Yavin IV
-R2-D2	Desc.	109	32	Droide	Naboo
-C-3PO	Desc.	167	75	Droide	Tatooine
-Chewbacca	M	228	112	Wookiee	Kashyyyk
-Lando Calrissian	M	177	79	Humano	Sullust
-Jabba the Hutt	Desc.	367	1	Hutt	Nal Hutta
-Boba Fett	M	183	78	Humano	Kamino
-Darth Maul	M	185	80	Zabrak	Dathomir
-Emperor Palpatine	M	170	75	Humano	Naboo
-Darth Sidious	M	173	75	Humano	Naboo
-Mandalorian	M	183	80	Mandaloriano	Mandalore
-Captain Rex	M	183	80	Humano	Kamino
-Ezra Bridger	M	170	68	Humano	Lothal
-IG-88	Desc.	200	140	Droide	Ord Mantell
-Jar Jar Binks	M	196	66	Gungan	Naboo
-Yoda	Desc.	66	17	Especie de Yoda	Dagobah
-Wicket W. Warrick	M	88	20	Ewok	Endor
-Jawa	Desc.	100	35	Jawa	Tatooine
-Bossk	M	190	94	Trandoshan	Trandosha
-Nien Nunb	M	160	68	Sullustano	Sullust
-Visas Marr	F	170	55	Miraluka	Korriban
-Dengar	M	193	80	Humano	Corellia
+COPY star_wars.personaje (nombre_personaje, genero, altura, peso, nombre_especie, nombre_planeta, tipo_especie, fecha_nacimiento, fecha_muerte, creador, clase, dieta, color_piel) FROM stdin;
+Luke Skywalker	M	172	77	Humano	Tatooine	\N	\N	\N	\N	\N	\N	\N
+Leia Organa	F	150	49	Humano	Alderaan	\N	\N	\N	\N	\N	\N	\N
+Darth Vader	M	202	136	Humano	Tatooine	\N	\N	\N	\N	\N	\N	\N
+Han Solo	M	180	80	Humano	Corellia	\N	\N	\N	\N	\N	\N	\N
+Anakin Skywalker	M	188	84	Humano	Tatooine	\N	\N	\N	\N	\N	\N	\N
+Padmé Amidala	F	165	45	Humano	Naboo	\N	\N	\N	\N	\N	\N	\N
+Qui-Gon Jinn	M	193	89	Humano	Coruscant	\N	\N	\N	\N	\N	\N	\N
+Rey	F	170	65	Humano	Jakku	\N	\N	\N	\N	\N	\N	\N
+Poe Dameron	M	180	80	Humano	Yavin IV	\N	\N	\N	\N	\N	\N	\N
+R2-D2	Desc.	109	32	Droide	Naboo	\N	\N	\N	\N	\N	\N	\N
+C-3PO	Desc.	167	75	Droide	Tatooine	\N	\N	\N	\N	\N	\N	\N
+Chewbacca	M	228	112	Wookiee	Kashyyyk	\N	\N	\N	\N	\N	\N	\N
+Lando Calrissian	M	177	79	Humano	Sullust	\N	\N	\N	\N	\N	\N	\N
+Jabba the Hutt	Desc.	367	1	Hutt	Nal Hutta	\N	\N	\N	\N	\N	\N	\N
+Boba Fett	M	183	78	Humano	Kamino	\N	\N	\N	\N	\N	\N	\N
+Darth Maul	M	185	80	Zabrak	Dathomir	\N	\N	\N	\N	\N	\N	\N
+Emperor Palpatine	M	170	75	Humano	Naboo	\N	\N	\N	\N	\N	\N	\N
+Darth Sidious	M	173	75	Humano	Naboo	\N	\N	\N	\N	\N	\N	\N
+Mandalorian	M	183	80	Mandaloriano	Mandalore	\N	\N	\N	\N	\N	\N	\N
+Captain Rex	M	183	80	Humano	Kamino	\N	\N	\N	\N	\N	\N	\N
+Ezra Bridger	M	170	68	Humano	Lothal	\N	\N	\N	\N	\N	\N	\N
+IG-88	Desc.	200	140	Droide	Ord Mantell	\N	\N	\N	\N	\N	\N	\N
+Jar Jar Binks	M	196	66	Gungan	Naboo	\N	\N	\N	\N	\N	\N	\N
+Yoda	Desc.	66	17	Especie de Yoda	Dagobah	\N	\N	\N	\N	\N	\N	\N
+Wicket W. Warrick	M	88	20	Ewok	Endor	\N	\N	\N	\N	\N	\N	\N
+Jawa	Desc.	100	35	Jawa	Tatooine	\N	\N	\N	\N	\N	\N	\N
+Bossk	M	190	94	Trandoshan	Trandosha	\N	\N	\N	\N	\N	\N	\N
+Nien Nunb	M	160	68	Sullustano	Sullust	\N	\N	\N	\N	\N	\N	\N
+Visas Marr	F	170	55	Miraluka	Korriban	\N	\N	\N	\N	\N	\N	\N
+Dengar	M	193	80	Humano	Corellia	\N	\N	\N	\N	\N	\N	\N
 \.
 
 
 --
--- TOC entry 3537 (class 0 OID 17285)
--- Dependencies: 224
+-- TOC entry 3516 (class 0 OID 17285)
+-- Dependencies: 221
 -- Data for Name: planeta; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
@@ -856,8 +755,8 @@ Korriban	Korriban	Desconocido	Árido
 
 
 --
--- TOC entry 3545 (class 0 OID 17456)
--- Dependencies: 232
+-- TOC entry 3524 (class 0 OID 17456)
+-- Dependencies: 229
 -- Data for Name: plataformas; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
@@ -866,8 +765,8 @@ COPY star_wars.plataformas (nombre_plataforma, id_videojuego) FROM stdin;
 
 
 --
--- TOC entry 3538 (class 0 OID 17288)
--- Dependencies: 225
+-- TOC entry 3517 (class 0 OID 17288)
+-- Dependencies: 222
 -- Data for Name: robot; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
@@ -876,8 +775,8 @@ COPY star_wars.robot (nombre_especie, creador, clase) FROM stdin;
 
 
 --
--- TOC entry 3543 (class 0 OID 17436)
--- Dependencies: 230
+-- TOC entry 3522 (class 0 OID 17436)
+-- Dependencies: 227
 -- Data for Name: serie; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
@@ -886,8 +785,8 @@ COPY star_wars.serie (id_serie, creador, total_episodios, canal, tipo_serie) FRO
 
 
 --
--- TOC entry 3551 (class 0 OID 17604)
--- Dependencies: 238
+-- TOC entry 3530 (class 0 OID 17604)
+-- Dependencies: 235
 -- Data for Name: tripula; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
@@ -896,8 +795,8 @@ COPY star_wars.tripula (nombre_personaje, id_nave, tipo_tripulacion) FROM stdin;
 
 
 --
--- TOC entry 3544 (class 0 OID 17446)
--- Dependencies: 231
+-- TOC entry 3523 (class 0 OID 17446)
+-- Dependencies: 228
 -- Data for Name: videojuego; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
@@ -906,8 +805,8 @@ COPY star_wars.videojuego (id_videojuego, tipo_juego, compania) FROM stdin;
 
 
 --
--- TOC entry 3560 (class 0 OID 0)
--- Dependencies: 227
+-- TOC entry 3539 (class 0 OID 0)
+-- Dependencies: 224
 -- Name: medio_id_seq; Type: SEQUENCE SET; Schema: star_wars; Owner: postgres
 --
 
@@ -915,8 +814,8 @@ SELECT pg_catalog.setval('star_wars.medio_id_seq', 1, false);
 
 
 --
--- TOC entry 3561 (class 0 OID 0)
--- Dependencies: 233
+-- TOC entry 3540 (class 0 OID 0)
+-- Dependencies: 230
 -- Name: nave_id_nave_seq; Type: SEQUENCE SET; Schema: star_wars; Owner: postgres
 --
 
@@ -924,7 +823,7 @@ SELECT pg_catalog.setval('star_wars.nave_id_nave_seq', 1, false);
 
 
 --
--- TOC entry 3323 (class 2606 OID 17390)
+-- TOC entry 3309 (class 2606 OID 17390)
 -- Name: actor actor_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -933,7 +832,7 @@ ALTER TABLE ONLY star_wars.actor
 
 
 --
--- TOC entry 3285 (class 2606 OID 17292)
+-- TOC entry 3277 (class 2606 OID 17292)
 -- Name: afiliacion afiliación_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -942,7 +841,7 @@ ALTER TABLE ONLY star_wars.afiliacion
 
 
 --
--- TOC entry 3287 (class 2606 OID 17294)
+-- TOC entry 3279 (class 2606 OID 17294)
 -- Name: afiliado afiliado_fecha_afiliacion_key; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -951,7 +850,7 @@ ALTER TABLE ONLY star_wars.afiliado
 
 
 --
--- TOC entry 3289 (class 2606 OID 17296)
+-- TOC entry 3281 (class 2606 OID 17296)
 -- Name: afiliado afiliado_nombre_afiliacion_key; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -960,7 +859,7 @@ ALTER TABLE ONLY star_wars.afiliado
 
 
 --
--- TOC entry 3291 (class 2606 OID 17298)
+-- TOC entry 3283 (class 2606 OID 17298)
 -- Name: afiliado afiliado_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -969,7 +868,7 @@ ALTER TABLE ONLY star_wars.afiliado
 
 
 --
--- TOC entry 3349 (class 2606 OID 17593)
+-- TOC entry 3335 (class 2606 OID 17593)
 -- Name: aparece aparece_fecha_estreno_key; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -978,7 +877,7 @@ ALTER TABLE ONLY star_wars.aparece
 
 
 --
--- TOC entry 3351 (class 2606 OID 17591)
+-- TOC entry 3337 (class 2606 OID 17591)
 -- Name: aparece aparece_id_medio_key; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -987,7 +886,7 @@ ALTER TABLE ONLY star_wars.aparece
 
 
 --
--- TOC entry 3353 (class 2606 OID 17589)
+-- TOC entry 3339 (class 2606 OID 17589)
 -- Name: aparece aparece_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -996,7 +895,7 @@ ALTER TABLE ONLY star_wars.aparece
 
 
 --
--- TOC entry 3293 (class 2606 OID 17300)
+-- TOC entry 3285 (class 2606 OID 17300)
 -- Name: ciudad ciudad_nombre_planeta_key; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1005,7 +904,7 @@ ALTER TABLE ONLY star_wars.ciudad
 
 
 --
--- TOC entry 3295 (class 2606 OID 17302)
+-- TOC entry 3287 (class 2606 OID 17302)
 -- Name: ciudad ciudad_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1014,7 +913,7 @@ ALTER TABLE ONLY star_wars.ciudad
 
 
 --
--- TOC entry 3297 (class 2606 OID 17304)
+-- TOC entry 3289 (class 2606 OID 17304)
 -- Name: ciudad ciudad_unico_nombre_planeta; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1023,7 +922,7 @@ ALTER TABLE ONLY star_wars.ciudad
 
 
 --
--- TOC entry 3337 (class 2606 OID 17517)
+-- TOC entry 3323 (class 2606 OID 17517)
 -- Name: combate combate_id_medio_key; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1032,7 +931,7 @@ ALTER TABLE ONLY star_wars.combate
 
 
 --
--- TOC entry 3339 (class 2606 OID 17515)
+-- TOC entry 3325 (class 2606 OID 17515)
 -- Name: combate combate_participante2_key; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1041,7 +940,7 @@ ALTER TABLE ONLY star_wars.combate
 
 
 --
--- TOC entry 3341 (class 2606 OID 17513)
+-- TOC entry 3327 (class 2606 OID 17513)
 -- Name: combate combate_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1050,16 +949,7 @@ ALTER TABLE ONLY star_wars.combate
 
 
 --
--- TOC entry 3301 (class 2606 OID 17306)
--- Name: criatura criatura_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
---
-
-ALTER TABLE ONLY star_wars.criatura
-    ADD CONSTRAINT criatura_pkey PRIMARY KEY (nombre_especie);
-
-
---
--- TOC entry 3357 (class 2606 OID 17623)
+-- TOC entry 3343 (class 2606 OID 17623)
 -- Name: dueno dueno_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1068,25 +958,7 @@ ALTER TABLE ONLY star_wars.dueno
 
 
 --
--- TOC entry 3303 (class 2606 OID 17308)
--- Name: especie especie_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
---
-
-ALTER TABLE ONLY star_wars.especie
-    ADD CONSTRAINT especie_pkey PRIMARY KEY (nombre_especie);
-
-
---
--- TOC entry 3305 (class 2606 OID 17310)
--- Name: humano humano_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
---
-
-ALTER TABLE ONLY star_wars.humano
-    ADD CONSTRAINT humano_pkey PRIMARY KEY (nombre_especie);
-
-
---
--- TOC entry 3307 (class 2606 OID 17312)
+-- TOC entry 3293 (class 2606 OID 17312)
 -- Name: idioma idioma_nombre_planeta_key; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1095,7 +967,7 @@ ALTER TABLE ONLY star_wars.idioma
 
 
 --
--- TOC entry 3309 (class 2606 OID 17314)
+-- TOC entry 3295 (class 2606 OID 17314)
 -- Name: idioma idioma_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1104,7 +976,7 @@ ALTER TABLE ONLY star_wars.idioma
 
 
 --
--- TOC entry 3343 (class 2606 OID 17541)
+-- TOC entry 3329 (class 2606 OID 17541)
 -- Name: interpretado interpretado_id_medio_key; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1113,7 +985,7 @@ ALTER TABLE ONLY star_wars.interpretado
 
 
 --
--- TOC entry 3345 (class 2606 OID 17539)
+-- TOC entry 3331 (class 2606 OID 17539)
 -- Name: interpretado interpretado_nombre_actor_key; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1122,7 +994,7 @@ ALTER TABLE ONLY star_wars.interpretado
 
 
 --
--- TOC entry 3347 (class 2606 OID 17537)
+-- TOC entry 3333 (class 2606 OID 17537)
 -- Name: interpretado interpretado_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1131,7 +1003,7 @@ ALTER TABLE ONLY star_wars.interpretado
 
 
 --
--- TOC entry 3311 (class 2606 OID 17316)
+-- TOC entry 3297 (class 2606 OID 17316)
 -- Name: lugares_interes lugares_interes_nombre_ciudad_key; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1140,7 +1012,7 @@ ALTER TABLE ONLY star_wars.lugares_interes
 
 
 --
--- TOC entry 3313 (class 2606 OID 17318)
+-- TOC entry 3299 (class 2606 OID 17318)
 -- Name: lugares_interes lugares_interes_nombre_planeta_key; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1149,7 +1021,7 @@ ALTER TABLE ONLY star_wars.lugares_interes
 
 
 --
--- TOC entry 3315 (class 2606 OID 17320)
+-- TOC entry 3301 (class 2606 OID 17320)
 -- Name: lugares_interes lugares_interes_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1158,7 +1030,7 @@ ALTER TABLE ONLY star_wars.lugares_interes
 
 
 --
--- TOC entry 3325 (class 2606 OID 17397)
+-- TOC entry 3311 (class 2606 OID 17397)
 -- Name: medio medio_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1167,7 +1039,7 @@ ALTER TABLE ONLY star_wars.medio
 
 
 --
--- TOC entry 3335 (class 2606 OID 17479)
+-- TOC entry 3321 (class 2606 OID 17479)
 -- Name: nave nave_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1176,7 +1048,7 @@ ALTER TABLE ONLY star_wars.nave
 
 
 --
--- TOC entry 3299 (class 2606 OID 17322)
+-- TOC entry 3291 (class 2606 OID 17322)
 -- Name: ciudad nombre_planeta_unique; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1185,7 +1057,7 @@ ALTER TABLE ONLY star_wars.ciudad
 
 
 --
--- TOC entry 3327 (class 2606 OID 17430)
+-- TOC entry 3313 (class 2606 OID 17430)
 -- Name: pelicula pelicula_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1194,7 +1066,7 @@ ALTER TABLE ONLY star_wars.pelicula
 
 
 --
--- TOC entry 3317 (class 2606 OID 17324)
+-- TOC entry 3303 (class 2606 OID 17324)
 -- Name: personaje personaje_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1203,7 +1075,7 @@ ALTER TABLE ONLY star_wars.personaje
 
 
 --
--- TOC entry 3319 (class 2606 OID 17326)
+-- TOC entry 3305 (class 2606 OID 17326)
 -- Name: planeta planeta_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1212,7 +1084,7 @@ ALTER TABLE ONLY star_wars.planeta
 
 
 --
--- TOC entry 3333 (class 2606 OID 17460)
+-- TOC entry 3319 (class 2606 OID 17460)
 -- Name: plataformas plataformas_nombre_plataforma_key; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1221,7 +1093,7 @@ ALTER TABLE ONLY star_wars.plataformas
 
 
 --
--- TOC entry 3321 (class 2606 OID 17328)
+-- TOC entry 3307 (class 2606 OID 17328)
 -- Name: robot robot_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1230,7 +1102,7 @@ ALTER TABLE ONLY star_wars.robot
 
 
 --
--- TOC entry 3329 (class 2606 OID 17440)
+-- TOC entry 3315 (class 2606 OID 17440)
 -- Name: serie serie_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1239,7 +1111,7 @@ ALTER TABLE ONLY star_wars.serie
 
 
 --
--- TOC entry 3355 (class 2606 OID 17608)
+-- TOC entry 3341 (class 2606 OID 17608)
 -- Name: tripula tripula_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1248,7 +1120,7 @@ ALTER TABLE ONLY star_wars.tripula
 
 
 --
--- TOC entry 3331 (class 2606 OID 17450)
+-- TOC entry 3317 (class 2606 OID 17450)
 -- Name: videojuego videojuego_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1257,7 +1129,7 @@ ALTER TABLE ONLY star_wars.videojuego
 
 
 --
--- TOC entry 3385 (class 2620 OID 17481)
+-- TOC entry 3367 (class 2620 OID 17481)
 -- Name: nave nave_check_longitud_uso; Type: TRIGGER; Schema: star_wars; Owner: postgres
 --
 
@@ -1265,7 +1137,7 @@ CREATE TRIGGER nave_check_longitud_uso BEFORE INSERT OR UPDATE ON star_wars.nave
 
 
 --
--- TOC entry 3358 (class 2606 OID 17329)
+-- TOC entry 3344 (class 2606 OID 17329)
 -- Name: afiliacion afiliación_nombre_planeta_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1274,7 +1146,7 @@ ALTER TABLE ONLY star_wars.afiliacion
 
 
 --
--- TOC entry 3359 (class 2606 OID 17334)
+-- TOC entry 3345 (class 2606 OID 17334)
 -- Name: afiliado afiliado_nombre_afiliacion_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1283,7 +1155,7 @@ ALTER TABLE ONLY star_wars.afiliado
 
 
 --
--- TOC entry 3360 (class 2606 OID 17339)
+-- TOC entry 3346 (class 2606 OID 17339)
 -- Name: afiliado afiliado_nombre_personaje_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1292,7 +1164,7 @@ ALTER TABLE ONLY star_wars.afiliado
 
 
 --
--- TOC entry 3379 (class 2606 OID 17599)
+-- TOC entry 3361 (class 2606 OID 17599)
 -- Name: aparece aparece_id_medio_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1301,7 +1173,7 @@ ALTER TABLE ONLY star_wars.aparece
 
 
 --
--- TOC entry 3380 (class 2606 OID 17594)
+-- TOC entry 3362 (class 2606 OID 17594)
 -- Name: aparece aparece_nombre_personaje_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1310,7 +1182,7 @@ ALTER TABLE ONLY star_wars.aparece
 
 
 --
--- TOC entry 3361 (class 2606 OID 17344)
+-- TOC entry 3347 (class 2606 OID 17344)
 -- Name: ciudad ciudad_nombre_planeta_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1319,7 +1191,7 @@ ALTER TABLE ONLY star_wars.ciudad
 
 
 --
--- TOC entry 3373 (class 2606 OID 17528)
+-- TOC entry 3355 (class 2606 OID 17528)
 -- Name: combate combate_id_medio_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1328,7 +1200,7 @@ ALTER TABLE ONLY star_wars.combate
 
 
 --
--- TOC entry 3374 (class 2606 OID 17518)
+-- TOC entry 3356 (class 2606 OID 17518)
 -- Name: combate combate_participante1_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1337,7 +1209,7 @@ ALTER TABLE ONLY star_wars.combate
 
 
 --
--- TOC entry 3375 (class 2606 OID 17523)
+-- TOC entry 3357 (class 2606 OID 17523)
 -- Name: combate combate_participante2_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1346,16 +1218,7 @@ ALTER TABLE ONLY star_wars.combate
 
 
 --
--- TOC entry 3362 (class 2606 OID 17349)
--- Name: criatura criatura_nombre_especie_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
---
-
-ALTER TABLE ONLY star_wars.criatura
-    ADD CONSTRAINT criatura_nombre_especie_fkey FOREIGN KEY (nombre_especie) REFERENCES star_wars.especie(nombre_especie);
-
-
---
--- TOC entry 3383 (class 2606 OID 17629)
+-- TOC entry 3365 (class 2606 OID 17629)
 -- Name: dueno dueno_id_nave_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1364,7 +1227,7 @@ ALTER TABLE ONLY star_wars.dueno
 
 
 --
--- TOC entry 3384 (class 2606 OID 17624)
+-- TOC entry 3366 (class 2606 OID 17624)
 -- Name: dueno dueno_nombre_personaje_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1373,16 +1236,7 @@ ALTER TABLE ONLY star_wars.dueno
 
 
 --
--- TOC entry 3366 (class 2606 OID 17354)
--- Name: personaje fk_nombre_especie; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
---
-
-ALTER TABLE ONLY star_wars.personaje
-    ADD CONSTRAINT fk_nombre_especie FOREIGN KEY (nombre_especie) REFERENCES star_wars.especie(nombre_especie);
-
-
---
--- TOC entry 3367 (class 2606 OID 17359)
+-- TOC entry 3350 (class 2606 OID 17359)
 -- Name: personaje fk_nombre_planeta; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1391,16 +1245,7 @@ ALTER TABLE ONLY star_wars.personaje
 
 
 --
--- TOC entry 3363 (class 2606 OID 17364)
--- Name: humano humano_nombre_especie_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
---
-
-ALTER TABLE ONLY star_wars.humano
-    ADD CONSTRAINT humano_nombre_especie_fkey FOREIGN KEY (nombre_especie) REFERENCES star_wars.especie(nombre_especie);
-
-
---
--- TOC entry 3364 (class 2606 OID 17369)
+-- TOC entry 3348 (class 2606 OID 17369)
 -- Name: idioma idioma_nombre_planeta_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1409,7 +1254,7 @@ ALTER TABLE ONLY star_wars.idioma
 
 
 --
--- TOC entry 3376 (class 2606 OID 17552)
+-- TOC entry 3358 (class 2606 OID 17552)
 -- Name: interpretado interpretado_id_medio_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1418,7 +1263,7 @@ ALTER TABLE ONLY star_wars.interpretado
 
 
 --
--- TOC entry 3377 (class 2606 OID 17547)
+-- TOC entry 3359 (class 2606 OID 17547)
 -- Name: interpretado interpretado_nombre_actor_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1427,7 +1272,7 @@ ALTER TABLE ONLY star_wars.interpretado
 
 
 --
--- TOC entry 3378 (class 2606 OID 17542)
+-- TOC entry 3360 (class 2606 OID 17542)
 -- Name: interpretado interpretado_nombre_personaje_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1436,7 +1281,7 @@ ALTER TABLE ONLY star_wars.interpretado
 
 
 --
--- TOC entry 3365 (class 2606 OID 17374)
+-- TOC entry 3349 (class 2606 OID 17374)
 -- Name: lugares_interes lugares_interes_nombre_ciudad_nombre_planeta_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1445,7 +1290,7 @@ ALTER TABLE ONLY star_wars.lugares_interes
 
 
 --
--- TOC entry 3369 (class 2606 OID 17431)
+-- TOC entry 3351 (class 2606 OID 17431)
 -- Name: pelicula pelicula_id_pelicula_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1454,7 +1299,7 @@ ALTER TABLE ONLY star_wars.pelicula
 
 
 --
--- TOC entry 3372 (class 2606 OID 17461)
+-- TOC entry 3354 (class 2606 OID 17461)
 -- Name: plataformas plataformas_id_videojuego_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1463,16 +1308,7 @@ ALTER TABLE ONLY star_wars.plataformas
 
 
 --
--- TOC entry 3368 (class 2606 OID 17379)
--- Name: robot robot_nombre_especie_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
---
-
-ALTER TABLE ONLY star_wars.robot
-    ADD CONSTRAINT robot_nombre_especie_fkey FOREIGN KEY (nombre_especie) REFERENCES star_wars.especie(nombre_especie);
-
-
---
--- TOC entry 3370 (class 2606 OID 17441)
+-- TOC entry 3352 (class 2606 OID 17441)
 -- Name: serie serie_id_serie_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1481,7 +1317,7 @@ ALTER TABLE ONLY star_wars.serie
 
 
 --
--- TOC entry 3381 (class 2606 OID 17614)
+-- TOC entry 3363 (class 2606 OID 17614)
 -- Name: tripula tripula_id_nave_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1490,7 +1326,7 @@ ALTER TABLE ONLY star_wars.tripula
 
 
 --
--- TOC entry 3382 (class 2606 OID 17609)
+-- TOC entry 3364 (class 2606 OID 17609)
 -- Name: tripula tripula_nombre_personaje_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1499,7 +1335,7 @@ ALTER TABLE ONLY star_wars.tripula
 
 
 --
--- TOC entry 3371 (class 2606 OID 17451)
+-- TOC entry 3353 (class 2606 OID 17451)
 -- Name: videojuego videojuego_id_videojuego_fkey; Type: FK CONSTRAINT; Schema: star_wars; Owner: postgres
 --
 
@@ -1507,7 +1343,7 @@ ALTER TABLE ONLY star_wars.videojuego
     ADD CONSTRAINT videojuego_id_videojuego_fkey FOREIGN KEY (id_videojuego) REFERENCES star_wars.medio(id_medio);
 
 
--- Completed on 2023-06-27 11:46:19
+-- Completed on 2023-06-27 21:03:43
 
 --
 -- PostgreSQL database dump complete
