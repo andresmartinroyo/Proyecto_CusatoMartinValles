@@ -34,7 +34,7 @@ ALTER SCHEMA star_wars OWNER TO postgres;
 --
 
 CREATE DOMAIN star_wars.dieta_dom AS character varying(20)
-	CONSTRAINT dieta_dom_check CHECK (((VALUE)::text = ANY (ARRAY[('Herbívoro'::character varying)::text, ('Carnívoro'::character varying)::text, ('Omnívoros'::character varying)::text, ('Carroñeros'::character varying)::text, ('Geófagos'::character varying)::text, ('Electrófago'::character varying)::text])));
+  CONSTRAINT dieta_dom_check CHECK (VALUE IN ('Herbivoro', 'Carnivoro', 'Omnivoro', 'Carronero', 'Geofago', 'Electrofago'));
 
 
 ALTER DOMAIN star_wars.dieta_dom OWNER TO postgres;
@@ -129,6 +129,14 @@ SET default_table_access_method = heap;
 -- TOC entry 223 (class 1259 OID 17384)
 -- Name: actor; Type: TABLE; Schema: star_wars; Owner: postgres
 --
+
+CREATE TABLE star_wars.especie (
+    nombre_especie character varying(30) NOT NULL,
+    idioma character varying(20) NOT NULL
+);
+
+
+ALTER TABLE star_wars.especie OWNER TO postgres;
 
 CREATE TABLE star_wars.actor (
     nombre_actor character varying(50) NOT NULL,
@@ -314,7 +322,7 @@ ALTER SEQUENCE star_wars.medio_id_seq OWNED BY star_wars.medio.id_medio;
 --
 
 CREATE TABLE star_wars.nave (
-    id_nave integer NOT NULL,
+    id_nave serial NOT NULL,
     nombre_nave character varying(50) NOT NULL,
     fabricante character varying(50) NOT NULL,
     longitud numeric(10,2) NOT NULL,
@@ -329,17 +337,6 @@ ALTER TABLE star_wars.nave OWNER TO postgres;
 -- TOC entry 230 (class 1259 OID 17473)
 -- Name: nave_id_nave_seq; Type: SEQUENCE; Schema: star_wars; Owner: postgres
 --
-
-CREATE SEQUENCE star_wars.nave_id_nave_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE star_wars.nave_id_nave_seq OWNER TO postgres;
 
 --
 -- TOC entry 3538 (class 0 OID 0)
@@ -381,7 +378,7 @@ CREATE TABLE star_wars.personaje (
     peso double precision,
     nombre_especie character varying(50) NOT NULL,
     nombre_planeta character varying(50) NOT NULL,
-    tipo_especie star_wars.tipo_especie_dom,
+    tipo_especie star_wars.tipo_especie_dom NOT NULL,
     fecha_nacimiento character varying(50),
     fecha_muerte character varying(50),
     creador character varying(50),
@@ -421,24 +418,11 @@ CREATE TABLE star_wars.plataformas (
 
 ALTER TABLE star_wars.plataformas OWNER TO postgres;
 
---
--- TOC entry 222 (class 1259 OID 17288)
--- Name: robot; Type: TABLE; Schema: star_wars; Owner: postgres
---
-
-CREATE TABLE star_wars.robot (
-    nombre_especie character varying(50) NOT NULL,
-    creador character varying(50) NOT NULL,
-    clase character varying(50) NOT NULL
-);
 
 
-ALTER TABLE star_wars.robot OWNER TO postgres;
 
---
--- TOC entry 227 (class 1259 OID 17436)
--- Name: serie; Type: TABLE; Schema: star_wars; Owner: postgres
---
+
+
 
 CREATE TABLE star_wars.serie (
     id_serie integer NOT NULL,
@@ -501,8 +485,7 @@ ALTER TABLE ONLY star_wars.nave ALTER COLUMN id_nave SET DEFAULT nextval('star_w
 -- Data for Name: actor; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.actor (nombre_actor, fecha_nacimiento, genero, nacionalidad, tipo_actor) FROM stdin;
-\.
+
 
 
 --
@@ -511,8 +494,7 @@ COPY star_wars.actor (nombre_actor, fecha_nacimiento, genero, nacionalidad, tipo
 -- Data for Name: afiliacion; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.afiliacion (nombre_af, tipo_af, nombre_planeta) FROM stdin;
-\.
+
 
 
 --
@@ -521,8 +503,7 @@ COPY star_wars.afiliacion (nombre_af, tipo_af, nombre_planeta) FROM stdin;
 -- Data for Name: afiliado; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.afiliado (nombre_personaje, nombre_afiliacion, fecha_afiliacion) FROM stdin;
-\.
+
 
 
 --
@@ -531,8 +512,7 @@ COPY star_wars.afiliado (nombre_personaje, nombre_afiliacion, fecha_afiliacion) 
 -- Data for Name: aparece; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.aparece (nombre_personaje, id_medio, fecha_estreno) FROM stdin;
-\.
+
 
 
 --
@@ -541,37 +521,8 @@ COPY star_wars.aparece (nombre_personaje, id_medio, fecha_estreno) FROM stdin;
 -- Data for Name: ciudad; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.ciudad (nombre_ciudad, nombre_planeta) FROM stdin;
-Mos Eisley	Tatooine
-Coruscant	Coruscant
-Echo Base	Hoth
-Bright Tree Village	Endor
-Theed	Naboo
-Kachirho	Kashyyyk
-Geonosis	Geonosis
-Yavin 4	Yavin IV
-Cloud City	Bespin
-Tipoca City	Kamino
-Mustafar	Mustafar
-Swamp of Dagobah	Dagobah
-Niima Outpost	Jakku
-Maz"s Castle	Takodana
-Hosnian Prime	Hosnian Prime
-Capital City	Lothal
-Pinyumb	Sullust
-Citadel Tower	Scarif
-Jedha City	Jedha
-Crait Outpost	Crait
-Ahch-To Village	Ahch-To
-Black Spire Outpost	Batuu
-Exegol	Exegol
-Pasaana	Pasaana
-Kijimi City	Kijimi
-Resistance Base	Ajan Kloss
-Kerath City	Kef Bir
-Aldera	Alderaan
-Hutt Space	Nal Hutta
-\.
+
+
 
 
 --
@@ -580,8 +531,7 @@ Hutt Space	Nal Hutta
 -- Data for Name: combate; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.combate (participante1, participante2, id_medio, fecha_combate, lugar) FROM stdin;
-\.
+
 
 
 --
@@ -590,8 +540,7 @@ COPY star_wars.combate (participante1, participante2, id_medio, fecha_combate, l
 -- Data for Name: dueno; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.dueno (nombre_personaje, id_nave, fecha_compra) FROM stdin;
-\.
+
 
 
 --
@@ -600,8 +549,7 @@ COPY star_wars.dueno (nombre_personaje, id_nave, fecha_compra) FROM stdin;
 -- Data for Name: idioma; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.idioma (nombre_idioma, nombre_planeta) FROM stdin;
-\.
+
 
 
 --
@@ -610,8 +558,7 @@ COPY star_wars.idioma (nombre_idioma, nombre_planeta) FROM stdin;
 -- Data for Name: interpretado; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.interpretado (nombre_personaje, nombre_actor, id_medio) FROM stdin;
-\.
+
 
 
 --
@@ -620,8 +567,7 @@ COPY star_wars.interpretado (nombre_personaje, nombre_actor, id_medio) FROM stdi
 -- Data for Name: lugares_interes; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.lugares_interes (nombre_lugar_de_interes, nombre_ciudad, nombre_planeta) FROM stdin;
-\.
+
 
 
 --
@@ -630,8 +576,7 @@ COPY star_wars.lugares_interes (nombre_lugar_de_interes, nombre_ciudad, nombre_p
 -- Data for Name: medio; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.medio (id_medio, titulo, fecha_estreno, rating, sinopsis) FROM stdin;
-\.
+
 
 
 --
@@ -640,8 +585,7 @@ COPY star_wars.medio (id_medio, titulo, fecha_estreno, rating, sinopsis) FROM st
 -- Data for Name: nave; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.nave (id_nave, nombre_nave, fabricante, longitud, uso, modelo) FROM stdin;
-\.
+
 
 
 --
@@ -650,8 +594,7 @@ COPY star_wars.nave (id_nave, nombre_nave, fabricante, longitud, uso, modelo) FR
 -- Data for Name: pelicula; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.pelicula (id_pelicula, director, duracion, distribuidor, coste_produccion, tipo_pelicula, ingreso_taquilla) FROM stdin;
-\.
+
 
 
 --
@@ -660,38 +603,6 @@ COPY star_wars.pelicula (id_pelicula, director, duracion, distribuidor, coste_pr
 -- Data for Name: personaje; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.personaje (nombre_personaje, genero, altura, peso, nombre_especie, nombre_planeta, tipo_especie, fecha_nacimiento, fecha_muerte, creador, clase, dieta, color_piel) FROM stdin;
-Luke Skywalker	M	172	77	Humano	Tatooine	\N	\N	\N	\N	\N	\N	\N
-Leia Organa	F	150	49	Humano	Alderaan	\N	\N	\N	\N	\N	\N	\N
-Darth Vader	M	202	136	Humano	Tatooine	\N	\N	\N	\N	\N	\N	\N
-Han Solo	M	180	80	Humano	Corellia	\N	\N	\N	\N	\N	\N	\N
-Anakin Skywalker	M	188	84	Humano	Tatooine	\N	\N	\N	\N	\N	\N	\N
-Padmé Amidala	F	165	45	Humano	Naboo	\N	\N	\N	\N	\N	\N	\N
-Qui-Gon Jinn	M	193	89	Humano	Coruscant	\N	\N	\N	\N	\N	\N	\N
-Rey	F	170	65	Humano	Jakku	\N	\N	\N	\N	\N	\N	\N
-Poe Dameron	M	180	80	Humano	Yavin IV	\N	\N	\N	\N	\N	\N	\N
-R2-D2	Desc.	109	32	Droide	Naboo	\N	\N	\N	\N	\N	\N	\N
-C-3PO	Desc.	167	75	Droide	Tatooine	\N	\N	\N	\N	\N	\N	\N
-Chewbacca	M	228	112	Wookiee	Kashyyyk	\N	\N	\N	\N	\N	\N	\N
-Lando Calrissian	M	177	79	Humano	Sullust	\N	\N	\N	\N	\N	\N	\N
-Jabba the Hutt	Desc.	367	1	Hutt	Nal Hutta	\N	\N	\N	\N	\N	\N	\N
-Boba Fett	M	183	78	Humano	Kamino	\N	\N	\N	\N	\N	\N	\N
-Darth Maul	M	185	80	Zabrak	Dathomir	\N	\N	\N	\N	\N	\N	\N
-Emperor Palpatine	M	170	75	Humano	Naboo	\N	\N	\N	\N	\N	\N	\N
-Darth Sidious	M	173	75	Humano	Naboo	\N	\N	\N	\N	\N	\N	\N
-Mandalorian	M	183	80	Mandaloriano	Mandalore	\N	\N	\N	\N	\N	\N	\N
-Captain Rex	M	183	80	Humano	Kamino	\N	\N	\N	\N	\N	\N	\N
-Ezra Bridger	M	170	68	Humano	Lothal	\N	\N	\N	\N	\N	\N	\N
-IG-88	Desc.	200	140	Droide	Ord Mantell	\N	\N	\N	\N	\N	\N	\N
-Jar Jar Binks	M	196	66	Gungan	Naboo	\N	\N	\N	\N	\N	\N	\N
-Yoda	Desc.	66	17	Especie de Yoda	Dagobah	\N	\N	\N	\N	\N	\N	\N
-Wicket W. Warrick	M	88	20	Ewok	Endor	\N	\N	\N	\N	\N	\N	\N
-Jawa	Desc.	100	35	Jawa	Tatooine	\N	\N	\N	\N	\N	\N	\N
-Bossk	M	190	94	Trandoshan	Trandosha	\N	\N	\N	\N	\N	\N	\N
-Nien Nunb	M	160	68	Sullustano	Sullust	\N	\N	\N	\N	\N	\N	\N
-Visas Marr	F	170	55	Miraluka	Korriban	\N	\N	\N	\N	\N	\N	\N
-Dengar	M	193	80	Humano	Corellia	\N	\N	\N	\N	\N	\N	\N
-\.
 
 
 --
@@ -700,58 +611,6 @@ Dengar	M	193	80	Humano	Corellia	\N	\N	\N	\N	\N	\N	\N
 -- Data for Name: planeta; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.planeta (nombre_planeta, sistema_solar, sector, clima) FROM stdin;
-Tatooine	Tatoo	Arkanis	Árido
-Coruscant	Coruscant	Coruscant	Templado
-Hoth	Hoth	Anoat	Gélido
-Endor	Endor	Moddell	Boscoso
-Naboo	Naboo	Chommell	Húmedo
-Kashyyyk	Kashyyyk	Mytaranor	Tropical
-Geonosis	Geonosis	Geonosis	Desértico
-Yavin IV	Yavin	Espacio Salvaje	Selva
-Bespin	Bespin	Anoat	Gaseoso
-Kamino	Kamino	Kamino	Lluvioso
-Mustafar	Mustafar	Atravis	Volcánico
-Dagobah	Dagobah	Sluis	Pantano
-Jakku	Jakku	Sistema de Jakku	Árido
-Takodana	Takodana	Territorios del Borde Exterior	Boscoso
-Hosnian Prime	Hosnian	Territorios del Borde Exterior	Templado
-Lothal	Lothal	Sector Lothal	Templado
-Sullust	Sullust	Sistema Sullust	Volcánico
-Scarif	Scarif	Sector Scarif	Tropical
-Jedha	Jedha	Sector Jedha	Desértico
-Crait	Crait	Crait	Salino
-Ahch-To	Ahch-To	Territorios del Borde Exterior	Isleño
-Batuu	Batuu	Territorios del Borde Exterior	Desértico
-Exegol	Exegol	Desconocido	Tenebroso
-Pasaana	Pasaana	Territorios del Borde Exterior	Desértico
-Kijimi	Kijimi	Territorios del Borde Exterior	Gélido
-Ajan Kloss	Ajan Kloss	Territorios del Borde Exterior	Boscoso
-Kef Bir	Kef Bir	Territorios del Borde Exterior	Oceánico
-Alderaan	Alderaan	Alderaan	Templado
-Malachor	Malachor	Territorios del Borde Exterior	Desértico
-Dantooine	Dantooine	Territorios del Borde Exterior	Variado
-Corellia	Corellia	Territorios del Borde Exterior	Variado
-Cantonica	Cantonica	Territorios del Borde Exterior	Desértico
-Cato Neimoidia	Cato Neimoidia	Territorios del Borde Exterior	Montañoso
-Ryloth	Ryloth	Territorios del Borde Exterior	Árido
-Mandalore	Mandalore	Territorios del Borde Exterior	Variado
-Nal Hutta	Nal Hutta	Hutt	Pantano
-Ord Mantell	Ord Mantell	Territorios del Borde Exterior	Templado
-Teth	Teth	Territorios del Borde Exterior	Selva
-Toydaria	Toydaria	Territorios del Borde Exterior	Boscoso
-Utapau	Utapau	Territorios del Borde Exterior	Desértico
-Raxus Prime	Raxus	Territorios del Borde Exterior	Basura
-Mimban	Mimban	Territorios del Borde Exterior	Lodoso
-Kessel	Kessel	Territorios del Borde Exterior	Árido
-Dathomir	Dathomir	Territorios del Borde Exterior	Variado
-Iridonia	Iridonia	Territorios del Borde Exterior	Templado
-Rattatak	Rattatak	Territorios del Borde Exterior	Árido
-Rodia	Rodia	Territorios del Borde Exterior	Selva
-Trandosha	Trandosha	Territorios del Borde Exterior	Selva
-Nar Shaddaa	Nal Hutta	Hutt	Ciudad
-Korriban	Korriban	Desconocido	Árido
-\.
 
 
 --
@@ -760,18 +619,11 @@ Korriban	Korriban	Desconocido	Árido
 -- Data for Name: plataformas; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.plataformas (nombre_plataforma, id_videojuego) FROM stdin;
-\.
 
 
---
--- TOC entry 3517 (class 0 OID 17288)
--- Dependencies: 222
--- Data for Name: robot; Type: TABLE DATA; Schema: star_wars; Owner: postgres
---
 
-COPY star_wars.robot (nombre_especie, creador, clase) FROM stdin;
-\.
+
+
 
 
 --
@@ -780,8 +632,7 @@ COPY star_wars.robot (nombre_especie, creador, clase) FROM stdin;
 -- Data for Name: serie; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.serie (id_serie, creador, total_episodios, canal, tipo_serie) FROM stdin;
-\.
+
 
 
 --
@@ -790,8 +641,7 @@ COPY star_wars.serie (id_serie, creador, total_episodios, canal, tipo_serie) FRO
 -- Data for Name: tripula; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.tripula (nombre_personaje, id_nave, tipo_tripulacion) FROM stdin;
-\.
+
 
 
 --
@@ -800,8 +650,7 @@ COPY star_wars.tripula (nombre_personaje, id_nave, tipo_tripulacion) FROM stdin;
 -- Data for Name: videojuego; Type: TABLE DATA; Schema: star_wars; Owner: postgres
 --
 
-COPY star_wars.videojuego (id_videojuego, tipo_juego, compania) FROM stdin;
-\.
+
 
 
 --
@@ -829,6 +678,10 @@ SELECT pg_catalog.setval('star_wars.nave_id_nave_seq', 1, false);
 
 ALTER TABLE ONLY star_wars.actor
     ADD CONSTRAINT actor_pkey PRIMARY KEY (nombre_actor);
+
+
+ALTER TABLE ONLY star_wars.especie
+    ADD CONSTRAINT especie_pkey PRIMARY KEY (nombre_especie);
 
 
 --
@@ -1073,6 +926,8 @@ ALTER TABLE ONLY star_wars.pelicula
 ALTER TABLE ONLY star_wars.personaje
     ADD CONSTRAINT personaje_pkey PRIMARY KEY (nombre_personaje);
 
+    
+
 
 --
 -- TOC entry 3305 (class 2606 OID 17326)
@@ -1092,13 +947,8 @@ ALTER TABLE ONLY star_wars.plataformas
     ADD CONSTRAINT plataformas_nombre_plataforma_key UNIQUE (nombre_plataforma);
 
 
---
--- TOC entry 3307 (class 2606 OID 17328)
--- Name: robot robot_pkey; Type: CONSTRAINT; Schema: star_wars; Owner: postgres
---
 
-ALTER TABLE ONLY star_wars.robot
-    ADD CONSTRAINT robot_pkey PRIMARY KEY (nombre_especie);
+
 
 
 --
@@ -1241,7 +1091,8 @@ ALTER TABLE ONLY star_wars.dueno
 --
 
 ALTER TABLE ONLY star_wars.personaje
-    ADD CONSTRAINT fk_nombre_planeta FOREIGN KEY (nombre_planeta) REFERENCES star_wars.planeta(nombre_planeta);
+    ADD CONSTRAINT fk_nombre_planeta FOREIGN KEY (nombre_planeta) REFERENCES star_wars.planeta(nombre_planeta),
+    ADD CONSTRAINT fk_nombre_especie FOREIGN KEY (nombre_especie) REFERENCES star_wars.especie(nombre_especie);
 
 
 --
@@ -1343,9 +1194,222 @@ ALTER TABLE ONLY star_wars.videojuego
     ADD CONSTRAINT videojuego_id_videojuego_fkey FOREIGN KEY (id_videojuego) REFERENCES star_wars.medio(id_medio);
 
 
--- Completed on 2023-06-27 21:03:43
+INSERT INTO star_wars.planeta (nombre_planeta, sistema_solar, sector, clima)
+VALUES
+  ('Tatooine', 'Tatoo', 'Arkanis', 'Árido'),
+  ('Coruscant', 'Coruscant', 'Coruscant', 'Templado'),
+  ('Hoth', 'Hoth', 'Anoat', 'Gélido'),
+  ('Endor', 'Endor', 'Moddell', 'Boscoso'),
+  ('Naboo', 'Naboo', 'Chommell', 'Húmedo'),
+  ('Kashyyyk', 'Kashyyyk', 'Mytaranor', 'Tropical'),
+  ('Geonosis', 'Geonosis', 'Geonosis', 'Desértico'),
+  ('Yavin IV', 'Yavin', 'Espacio Salvaje', 'Selva'),
+  ('Bespin', 'Bespin', 'Anoat', 'Gaseoso'),
+  ('Kamino', 'Kamino', 'Kamino', 'Lluvioso'),
+  ('Mustafar', 'Mustafar', 'Atravis', 'Volcánico'),
+  ('Dagobah', 'Dagobah', 'Sluis', 'Pantano'),
+  ('Jakku', 'Jakku', 'Sistema de Jakku', 'Árido'),
+  ('Takodana', 'Takodana', 'Territorios del Borde Exterior', 'Boscoso'),
+  ('Hosnian Prime', 'Hosnian', 'Territorios del Borde Exterior', 'Templado'),
+  ('Lothal', 'Lothal', 'Sector Lothal', 'Templado'),
+  ('Sullust', 'Sullust', 'Sistema Sullust', 'Volcánico'),
+  ('Scarif', 'Scarif', 'Sector Scarif', 'Tropical'),
+  ('Jedha', 'Jedha', 'Sector Jedha', 'Desértico'),
+  ('Crait', 'Crait', 'Crait', 'Salino'),
+  ('Ahch-To', 'Ahch-To', 'Territorios del Borde Exterior', 'Isleño'),
+  ('Batuu', 'Batuu', 'Territorios del Borde Exterior', 'Desértico'),
+  ('Exegol', 'Exegol', 'Desconocido', 'Tenebroso'),
+  ('Pasaana', 'Pasaana', 'Territorios del Borde Exterior', 'Desértico'),
+  ('Kijimi', 'Kijimi', 'Territorios del Borde Exterior', 'Gélido'),
+  ('Ajan Kloss', 'Ajan Kloss', 'Territorios del Borde Exterior', 'Boscoso'),
+  ('Kef Bir', 'Kef Bir', 'Territorios del Borde Exterior', 'Oceánico'),
+  ('Alderaan', 'Alderaan', 'Alderaan', 'Templado'),
+  ('Malachor', 'Malachor', 'Territorios del Borde Exterior', 'Desértico'),
+  ('Dantooine', 'Dantooine', 'Territorios del Borde Exterior', 'Variado'),
+  ('Corellia', 'Corellia', 'Territorios del Borde Exterior', 'Variado'),
+  ('Cantonica', 'Cantonica', 'Territorios del Borde Exterior', 'Desértico'),
+  ('Cato Neimoidia', 'Cato Neimoidia', 'Territorios del Borde Exterior','Montañoso'),
+  ('Ryloth', 'Ryloth', 'Territorios del Borde Exterior', 'Árido'),
+  ('Mandalore', 'Mandalore', 'Territorios del Borde Exterior', 'Variado'),
+  ('Nal Hutta', 'Nal Hutta', 'Hutt', 'Pantano'),
+  ('Ord Mantell', 'Ord Mantell', 'Territorios del Borde Exterior', 'Templado'),
+  ('Teth', 'Teth', 'Territorios del Borde Exterior', 'Selva'),
+  ('Toydaria', 'Toydaria', 'Territorios del Borde Exterior', 'Boscoso'),
+  ('Utapau', 'Utapau', 'Territorios del Borde Exterior', 'Desértico'),
+  ('Raxus Prime', 'Raxus', 'Territorios del Borde Exterior', 'Basura'),
+  ('Mimban', 'Mimban', 'Territorios del Borde Exterior', 'Lodoso'),
+  ('Kessel', 'Kessel', 'Territorios del Borde Exterior', 'Árido'),
+  ('Dathomir', 'Dathomir', 'Territorios del Borde Exterior', 'Variado'),
+  ('Iridonia', 'Iridonia', 'Territorios del Borde Exterior', 'Templado'),
+  ('Rattatak', 'Rattatak', 'Territorios del Borde Exterior', 'Árido'),
+  ('Rodia', 'Rodia', 'Territorios del Borde Exterior', 'Selva'),
+  ('Trandosha', 'Trandosha', 'Territorios del Borde Exterior', 'Selva'),
+  ('Nar Shaddaa', 'Nal Hutta', 'Hutt', 'Ciudad'),
+  ('Korriban', 'Korriban', 'Desconocido', 'Árido');
 
---
--- PostgreSQL database dump complete
---
+INSERT INTO star_wars.ciudad (nombre_ciudad, nombre_planeta)
+VALUES
+  ('Mos Eisley', 'Tatooine'),
+  ('Coruscant', 'Coruscant'),
+  ('Echo Base', 'Hoth'),
+  ('Bright Tree Village', 'Endor'),
+  ('Theed', 'Naboo'),
+  ('Kachirho', 'Kashyyyk'),
+  ('Geonosis', 'Geonosis'),
+  ('Yavin 4', 'Yavin IV'),
+  ('Cloud City', 'Bespin'),
+  ('Tipoca City', 'Kamino'),
+  ('Mustafar', 'Mustafar'),
+  ('Swamp of Dagobah', 'Dagobah'),
+  ('Niima Outpost', 'Jakku'),
+  ('Maz"s Castle', 'Takodana'),
+  ('Hosnian Prime', 'Hosnian Prime'),
+  ('Capital City', 'Lothal'),
+  ('Pinyumb', 'Sullust'),
+  ('Citadel Tower', 'Scarif'),
+  ('Jedha City', 'Jedha'),
+  ('Crait Outpost', 'Crait'),
+  ('Ahch-To Village', 'Ahch-To'),
+  ('Black Spire Outpost', 'Batuu'),
+  ('Exegol', 'Exegol'),
+  ('Pasaana', 'Pasaana'),
+  ('Kijimi City', 'Kijimi'),
+  ('Resistance Base', 'Ajan Kloss'),
+  ('Kerath City', 'Kef Bir'),
+  ('Aldera', 'Alderaan'),
+  ('Hutt Space', 'Nal Hutta');
 
+
+
+INSERT INTO star_wars.afiliacion (nombre_af, tipo_af, nombre_planeta) VALUES
+ ('Imperio Galáctico', 'Imperio', 'Coruscant'),
+('Alianza Rebelde', 'Rebelión','Yavin IV'),
+('República Galáctica', 'República', 'Coruscant'),
+('Confederación de Sistemas Independientes', 'Separatistas','Geonosis'),
+('Primera Orden', 'Imperio','Exegol'),
+('Resistencia', 'Rebelion','Ajan Kloss');
+
+
+INSERT INTO star_wars.especie (nombre_especie, idioma)
+VALUES
+  ('Humano', 'Básico Galáctico'),
+  ('Wookiee', 'Shyriiwook'),
+  ('Droide', 'Droidspeak'),
+  ('Hutt', 'Huttese'),
+  ('Rodiano', 'Básico Galáctico'),
+  ('Togruta', 'Togruti'),
+  ('Trandoshan', 'Dosh'),
+  ('Mon Calamari', 'Mon Calamariano'),
+  ('Ewok', 'Ewokés'),
+  ('Sullustano', 'Sullustese'),
+  ('Jawa', 'Jawaés'),
+  ('Gungan', 'Gungan Básico'),
+  ('Kel Dor', 'Kel Dor'),
+  ('Kaleesh', 'Kaleesh'),
+  ('Ithoriano', 'Ithoriano'),
+  ('Gamorreano', 'Gamorreano'),
+  ('Quarren', 'Quarren'),
+  ('Miraluka', 'Miraluka'),
+  ('Especie de Yoda', 'Desconocido'),
+  ('Chiss', 'Cheunh'),
+  ('Aqualish', 'Aqualish'),
+  ('Mandaloriano', 'Mando''a'),
+  ('Sith', 'Desconocido'),
+  ('Zabrak', 'Zabrak'),
+  ('Bothan', 'Bothanés'),
+  ('Kaminoano', 'Kaminoano'),
+  ('Nautolano', 'Nautilano'),
+  ('Mirialano', 'Mirialano'),
+  ('Neimodiano', 'Neimoidiano'),
+  ('Saquen', 'Tusken'),
+  ('Hapano', 'Hapano'),
+  ('Gand', 'Gand'),
+  ('Weequay', 'Weequay'),
+  ('Geonosiano', 'Geonosiano'),
+  ('Falleen', 'Falleen'),
+  ('Dathomiriano', 'Dathomiriano'),
+  ('Talz', 'Talz'),
+  ('Ishi Tib', 'Ishi Tib'),
+  ('Umbarano', 'Umbarano'),
+  ('Sakiyano', 'Sakiyano'),
+  ('Kashyyykiano', 'Shyriiwook'),
+  ('Nabooano', 'Básico Galáctico'),
+  ('Kiffar', 'Kiffu'),
+  ('Echani', 'Echani'),
+  ('Siniteen', 'Siniteen'),
+  ('Muun', 'Muun'),
+  ('Klatooiniano', 'Klatooiniano'),
+  ('Verpine', 'Verpino');
+
+
+INSERT INTO star_wars.personaje (nombre_personaje, genero, altura, peso, nombre_especie, nombre_planeta, tipo_especie, fecha_nacimiento, fecha_muerte, creador, clase, dieta, color_piel)
+VALUES
+  ('Luke Skywalker', 'M', 1.72, 77, 'Humano', 'Tatooine', 'humano', '19BBY', NULL, 'George Lucas', 'Jedi', 'Omnivoro', 'Blanco'),
+  ('Leia Organa', 'F', 1.50, 49, 'Humano', 'Alderaan', 'humano', '19BBY', '35ABY', 'George Lucas', 'Princesa', 'Omnivoro', 'Blanco'),
+  ('Darth Vader', 'M', 2.03, 136, 'Humano', 'Tatooine', 'humano', '41.9BBY', '4ABY', 'George Lucas', 'Sith', 'Carronero', 'Blanco'),
+  ('Han Solo', 'M', 1.80, 80, 'Humano', 'Corellia', 'humano', '29BBY', NULL, 'George Lucas', 'Contrabandista', 'Omnivoro', 'Blanco'),
+  ('Yoda', 'M', 0.66, 13, 'Humano', 'Dagobah', 'humano', '896BBY', '4ABY', 'George Lucas', 'Jedi', 'Herbivoro', 'Verde'),
+  ('C-3PO', 'Desc.', 1.67, 75, 'Droide', 'Tatooine', 'robot', NULL, NULL, 'George Lucas', 'Protocolo', 'Omnivoro', 'Oro'),
+  ('Chewbacca', 'M', 2.28, 112, 'Wookiee', 'Kashyyyk', 'criatura', '200BBY', NULL, 'George Lucas', 'Contrabandista', 'Herbivoro', 'Marrón'),
+  ('Boba Fett', 'M', 1.83, 78, 'Humano', 'Kamino', 'humano', '31.5BBY', '4ABY', 'George Lucas', 'Cazarrecompensas', 'Carnivoro', 'Verde'),
+  ('Padmé Amidala', 'F', 1.65, 45, 'Humano', 'Naboo', 'humano', '46BBY', '19BBY', 'George Lucas', 'Reina', 'Omnivoro', 'Blanco'),
+  ('Obi-Wan Kenobi', 'M', 1.82, 77, 'Humano', 'Tatooine', 'humano', '57BBY', '0ABY', 'George Lucas', 'Jedi', 'Omnivoro', 'Blanco'),
+  ('Darth Maul', 'M', 1.75, 80, 'Zabrak', 'Dathomir', 'criatura', '54BBY', '2ABY', 'George Lucas', 'Sith', 'Carnivoro', 'Rojo'),
+  ('Lando Calrissian', 'M', 1.77, 79, 'Humano', 'Alderaan', 'humano', '31BBY', NULL, 'George Lucas', 'Contrabandista', 'Omnivoro', 'Negro'),
+  ('Rey', 'F', 1.70, 55, 'Humano', 'Jakku', 'humano', '15ABY', NULL, 'George Lucas', 'Jedi', 'Omnivoro', 'Marrón'),
+  ('Kylo Ren', 'M', 1.89, 84, 'Humano', 'Yavin IV', 'humano', '5ABY', '35ABY', 'George Lucas', 'Sith', 'Carronero', 'Negro'),
+  ('Poe Dameron', 'M', 1.79, 77, 'Humano', 'Yavin IV', 'humano', '9ABY', NULL, 'George Lucas', 'Piloto', 'Omnivoro', 'Blanco'),
+  ('BB-8', 'Desc.', 0.67, 18, 'Droide', 'Jakku', 'robot', NULL, NULL, 'George Lucas', 'Astromecánico', 'Electrofago', 'Naranja'),
+  ('Finn', 'M', 1.78, 84, 'Humano', 'Tatooine', 'humano', '11ABY', NULL, 'George Lucas', 'Soldado', 'Omnivoro', 'Negro'),
+  ('Mace Windu', 'M', 1.92, 89, 'Humano', 'Alderaan', 'humano', '72BBY', '19BBY', 'George Lucas', 'Jedi', 'Omnivoro', 'Negro'),
+  ('Jabba the Hutt', 'Desc.', 3.90, 1500, 'Hutt', 'Tatooine', 'criatura', NULL, '4ABY', 'George Lucas', 'Gánster', 'Carnivoro', 'Verde'),
+  ('Anakin Skywalker', 'M', 1.88, 84, 'Humano', 'Tatooine', 'humano', '41.9BBY', '4ABY', 'George Lucas', 'Jedi', 'Omnivoro', 'Blanco');
+
+
+INSERT INTO star_wars.actor (nombre_actor, fecha_nacimiento, genero, nacionalidad, tipo_actor)
+VALUES
+  ('Mark Hamill', '1951-09-25', 'M', 'Estados Unidos', 'Interpreta'),
+  ('Harrison Ford', '1942-07-13', 'M', 'Estados Unidos', 'Interpreta'),
+  ('Daisy Ridley', '1992-04-10', 'F', 'Reino Unido', 'Interpreta'),
+  ('Adam Driver', '1983-11-19', 'M', 'Estados Unidos', 'Interpreta'),
+  ('John Boyega', '1992-03-17', 'M', 'Reino Unido', 'Interpreta'),
+  ('Oscar Isaac', '1979-03-09', 'M', 'Guatemala', 'Interpreta'),
+  ('Anthony Daniels', '1946-02-21', 'M', 'Reino Unido', 'Interpreta'),
+  ('Peter Mayhew', '1944-05-19', 'M', 'Reino Unido', 'Interpreta'),
+  ('Kenny Baker', '1934-08-24', 'M', 'Reino Unido', 'Interpreta'),
+  ('Billy Dee Williams', '1937-04-06', 'M', 'Estados Unidos', 'Interpreta'),
+  ('Liam Neeson', '1952-06-07', 'M', 'Irlanda', 'Interpreta'),
+  ('Ewan McGregor', '1971-03-31', 'M', 'Escocia', 'Interpreta'),
+  ('Natalie Portman', '1981-06-09', 'F', 'Estados Unidos', 'Interpreta'),
+  ('Hayden Christensen', '1981-04-19', 'M', 'Canadá', 'Interpreta'),
+  ('Samuel L. Jackson', '1948-12-21', 'M', 'Estados Unidos', 'Interpreta'),
+  ('Christopher Lee', '1922-05-27', 'M', 'Inglaterra', 'Interpreta'),
+  ('Lupita Nyong''o', '1983-03-01', 'F', 'Kenia', 'Interpreta'),
+  ('Benicio del Toro', '1967-02-19', 'M', 'Puerto Rico', 'Interpreta'),
+  ('Alec Guinness', '1914-04-02', 'M', 'Inglaterra', 'Interpreta'),
+  ('Frank Oz', '1944-05-25', 'M', 'Estados Unidos', 'Interpreta'),
+  ('Lando Calrissian', '1948-12-21', 'M', 'Estados Unidos', 'Interpreta'),
+  ('Donald Glover', '1983-09-25', 'M', 'Estados Unidos', 'Interpreta'),
+  ('James Earl Jones', '1931-01-17', 'M', 'Estados Unidos', 'Interpreta'),
+  ('Temuera Morrison', '1960-12-26', 'M', 'Nueva Zelanda', 'Interpreta'),
+  ('Ray Park', '1974-08-23', 'M', 'Escocia', 'Interpreta'),
+  ('Peter Cushing', '1913-05-26', 'M', 'Inglaterra', 'Interpreta'),
+  ('Gwendoline Christie', '1978-10-28', 'F', 'Inglaterra', 'Interpreta'),
+  ('Domhnall Gleeson', '1983-05-12', 'M', 'Irlanda', 'Interpreta'),
+  ('Laura Dern', '1967-02-10', 'F', 'Estados Unidos', 'Interpreta'),
+  ('Richard E. Grant', '1957-05-05', 'M', 'Inglaterra', 'Interpreta'),
+  ('Billie Lourd', '1992-07-17', 'F', 'Estados Unidos', 'Interpreta'),
+  ('Andy Serkis', '1964-04-20', 'M', 'Inglaterra', 'Interpreta'),
+  ('Kelly Marie Tran', '1989-01-17', 'F', 'Estados Unidos', 'Interpreta'),
+  ('Naomi Ackie', '1992-11-02', 'F', 'Inglaterra', 'Interpreta'),
+  ('Ian McDiarmid', '1944-08-11', 'M', 'Escocia', 'Interpreta'),
+  ('Carrie Fisher', '1956-10-21', 'F', 'Estados Unidos', 'Interpreta');
+  
+
+  INSERT INTO star_wars.nave (Nombre_nave, Fabricante, Longitud, Uso, Modelo) VALUES 
+('Halcón Milenario', 'Corellian Engineering Corporation', 34.75, 'Transporte de carga, pasajeros y combate', 'YT-1300'),
+('X-wing', 'Incom Corporation', 12.5, 'Combate espacial', 'T-65B'),
+('TIE Fighter', 'Sistemas de Flota Sienar', 6.3, 'Combate espacial', 'TIE/LN'),
+('Estrella de la Muerte', 'Imperio Galáctico', 160000, 'Base militar espacial', 'DS-1 Orbital Battle Station'),
+('Destructor Estelar', 'Kuat Drive Yards', 1600, 'Nave de guerra', 'Imperial-class Star Destroyer'),
+('Naboo Royal Starship', 'Theed Palace Space Vessel Engineering Corps', 76, 'Transporte diplomático', 'J-type 327 Nubian');
